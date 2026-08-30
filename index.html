@@ -1,148 +1,161 @@
 <!DOCTYPE html><html lang=fr><head><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1"><title>YEKATI</title><style>
-:root{--bg:#111b21;--bg2:#202c33;--bg3:#2a3942;--accent:#00a884;--me:#005c4b;--you:#202c33;--text:#e9edef;--light:#f0f2f5;--light2:#fff}
-*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui, -apple-system}body{background:var(--bg);color:var(--text);height:100vh;overflow:hidden}
-.top{background:var(--bg2);padding:14px 16px;display:flex;justify-content:space-between;align-items:center;font-weight:800;font-size:20px}
-.filts{display:flex;gap:8px;padding:10px;overflow:auto}.filt{padding:8px 16px;border-radius:20px;background:var(--bg3);font-size:13px;white-space:nowrap;cursor:pointer}.filt.on{background:var(--accent);color:#fff}.filtPlus{width:32px;height:32px;border-radius:50%;background:var(--bg3);display:flex;align-items:center;justify-content:center;cursor:pointer}
+:root{--bg:#111b21;--bg2:#202c33;--bg3:#2a3942;--accent:#00a884;--me:#005c4b;--you:#202c33;--text:#e9edef}
+*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui}body{background:var(--bg);color:var(--text);height:100vh;overflow:hidden}
+.top{background:var(--bg2);padding:14px 16px;display:flex;justify-content:space-between;align-items:center;font-weight:800}
+.filts{display:flex;gap:8px;padding:10px;overflow:auto}.filt{padding:8px 16px;border-radius:20px;background:var(--bg3);font-size:13px;white-space:nowrap;cursor:pointer}.filt.on{background:var(--accent);color:#fff}.filtPlus{width:32px;height:32px;border-radius:50%;background:var(--bg3);display:flex;align-items:center;justify-content:center;cursor:pointer;border:1px solid #fff3}
 .search{padding:0 12px 10px}.search input{width:100%;padding:12px;border-radius:10px;border:none;background:var(--bg2);color:var(--text);outline:none}
 .metaAsk{margin:0 12px 10px;background:linear-gradient(90deg,#00a88433,#00a88466);padding:14px;border-radius:14px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;border:2px solid var(--accent)}
 .main{height:calc(100vh - 170px);overflow:auto;padding-bottom:20px}.row{display:flex;gap:12px;padding:14px 16px;border-bottom:1px solid var(--bg2);cursor:pointer;align-items:center}
-.av{width:48px;height:48px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:700;overflow:hidden;flex-shrink:0}
-.inf{flex:1;min-width:0}.nm{font-weight:600;display:flex;justify-content:space-between}.nm span:last-child{font-size:11px;opacity:.6}.msg{font-size:13px;opacity:.7;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.av{width:48px;height:48px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:700;overflow:hidden}
+.inf{flex:1;min-width:0}.nm{font-weight:600;display:flex;justify-content:space-between}.msg{font-size:13px;opacity:.7;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .fab{position:fixed;bottom:85px;right:18px;width:56px;height:56px;background:var(--accent);border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:28px;cursor:pointer;z-index:4}
 .bottom{position:fixed;bottom:0;left:0;right:0;background:var(--bg2);display:flex;padding:8px 0;border-top:1px solid var(--bg3);z-index:20}.bottom div{flex:1;text-align:center;font-size:11px;cursor:pointer;opacity:.6}.bottom div.on{opacity:1;color:var(--accent);font-weight:700}
 .chatWin{position:fixed;inset:0;background:#0b141a;z-index:90;display:none;flex-direction:column}.chatWin.open{display:flex}
 .m{background:var(--bg2);padding:12px;display:flex;align-items:center;gap:10px}.chatBody{flex:1;overflow:auto;padding:12px;display:flex;flex-direction:column;gap:10px}
 .bub{max-width:85%;padding:12px 14px;border-radius:10px;font-size:15px;white-space:pre-wrap;word-break:break-word}.me{align-self:flex-end;background:var(--me)}.you{align-self:flex-start;background:var(--you)}
 .inputBar{display:flex;gap:6px;padding:10px;background:var(--bg2);align-items:center}.inputBar input{flex:1;padding:12px 16px;border-radius:25px;border:none;background:var(--bg3);color:var(--text);outline:none}
-.modal{position:fixed;inset:0;background:#000d;display:none;align-items:center;justify-content:center;z-index:300;padding:0}.modal.open{display:flex}
+.modal{position:fixed;inset:0;background:#000d;display:none;align-items:center;justify-content:center;z-index:300;padding:16px}.modal.open{display:flex}
 .box{background:var(--bg2);padding:20px;border-radius:14px;width:100%;max-width:430px;display:flex;flex-direction:column;gap:12px;max-height:92vh;overflow:auto}
 .box input,.box textarea{padding:12px;border-radius:8px;border:none;background:var(--bg3);color:var(--text);outline:none;width:100%}
 .box button{padding:12px;background:var(--accent);border:none;border-radius:8px;color:#fff;font-weight:700;cursor:pointer}
-.hide{display:none}.head2{padding:14px 16px;background:var(--bg2);display:flex;align-items:center;gap:12px;font-weight:700;position:sticky;top:0;z-index:2}
+.hide{display:none}
 .plusPage{position:fixed;inset:0;background:var(--bg);z-index:100;display:none;flex-direction:column}.plusPage.open{display:flex}
 .plusTop{background:var(--bg2);padding:12px 16px;display:flex;align-items:center;gap:12px}.plusTop input{flex:1;padding:12px;border-radius:10px;border:none;background:var(--bg3);color:var(--text);outline:none}
 .optItem{display:flex;gap:14px;padding:14px 16px;align-items:center;cursor:pointer;border-bottom:1px solid var(--bg2)}.optIcon{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px}
 .videoModal{position:fixed;inset:0;background:#000;z-index:600;display:none;flex-direction:column}.videoModal.open{display:flex}
 .callBtn{width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:22px}
-.newListPage{position:fixed;inset:0;background:#f0f2f5;z-index:150;display:none;flex-direction:column;color:#111}.newListPage.open{display:flex}
 .msgMenu{position:fixed;background:#fff;color:#111;border-radius:12px;padding:8px;z-index:400;display:none;flex-direction:column;box-shadow:0 8px 30px #000a;min-width:210px}.msgMenu.open{display:flex}.msgMenu div{padding:12px 14px;border-radius:8px;cursor:pointer}.msgMenu div:hover{background:#f0f2f5}
-
-/* WHATSAPP SETTINGS EXACT */
 .waSettings{position:fixed;inset:0;background:#f0f2f5;z-index:500;display:none;flex-direction:column;color:#111;overflow:auto}.waSettings.open{display:flex}
-.waHeader{background:#fff;padding:12px 16px;display:flex;align-items:center;gap:16px;border-bottom:1px solid #e0e0e0;position:sticky;top:0;z-index:2}
-.waProfile{background:#fff;padding:16px;display:flex;gap:16px;align-items:center;cursor:pointer;border-bottom:8px solid #f0f2f5}
-.waIcon{width:52px;height:52px;border-radius:50%;background:#f0f2f5;display:flex;align-items:center;justify-content:center;font-size:24px;color:#54656f}
-.waSetRow{display:flex;gap:20px;padding:18px 16px;background:#fff;align-items:flex-start;cursor:pointer;border-bottom:1px solid #f0f2f5}
-.waSetRow .waIcon{width:28px;height:28px;font-size:20px;background:none}
-.waSetText{flex:1}.waSetTitle{font-size:16px;color:#111}.waSetDesc{font-size:13px;color:#667781;margin-top:2px}
-.waSection{margin-top:8px;background:#fff}
-.waQRPage{position:fixed;inset:0;background:#fff;z-index:510;display:none;flex-direction:column;color:#111}.waQRPage.open{display:flex}
+.waHeader{background:#f0f2f5;padding:14px 16px;display:flex;align-items:center;gap:20px;color:#111}.waHeader b{font-size:22px;font-weight:600}
+.waProfile{background:#fff;padding:14px 16px;display:flex;gap:16px;align-items:center;cursor:pointer}
+.waProfile.avPic{width:64px;height:64px;border-radius:50%;background:#dfdfe0;display:flex;align-items:center;justify-content:center;font-size:28px;color:#fff;font-weight:600}
+.waProfileRight{flex:1}.waProfileName{font-size:19px;color:#111}.waProfileStatus{font-size:13px;color:#667781;margin-top:2px}
+.waSection{margin-top:10px;background:#fff;box-shadow:0 1px 0 #0001}
+.waRow{display:flex;align-items:center;padding:16px 16px;gap:22px;cursor:pointer;background:#fff;border-bottom:1px solid #f0f2f5}
+.waRowIcon{width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:22px;color:#667781}
+.waRowText{flex:1}.waRowTitle{font-size:16.5px;color:#111}.waRowSub{font-size:13px;color:#667781;margin-top:1px}
+.waFooter{text-align:center;padding:24px 16px;color:#667781;font-size:12.5px}
+.waQRPage{position:fixed;inset:0;background:#fff;z-index:510;display:none;flex-direction:column}.waQRPage.open{display:flex}
+.waQRHeader{background:#00a884;padding:14px 16px;display:flex;align-items:center;gap:20px;color:#fff}
+
+/* NOUVELLE LISTE - COMME TA CAPTURE - REFAIT BIEN */
+.newListPage{position:fixed;inset:0;background:#f0f2f5;z-index:200;display:none;flex-direction:column;color:#111}.newListPage.open{display:flex}
+.newListHeader{background:#f0f2f5;padding:12px 16px;display:flex;align-items:center;gap:16px;border-bottom:1px solid #e0e0e0}
+.newListHeader b{flex:1;text-align:center;font-size:17px;font-weight:600;color:#111}
+.newListBody{flex:1;background:#fff;padding:16px;display:flex;flex-direction:column;gap:16px;overflow:auto}
+.newListInput{width:100%;padding:14px 16px;border-radius:10px;border:1.5px solid #00a884;outline:none;font-size:15px;background:#fff;color:#111}
+.newListAddBtn{display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;color:#007aff;font-size:14px;cursor:pointer;background:#fff;border:none;font-weight:500}
+.newListCreateBtn{width:100%;background:#00a884;color:#fff;padding:14px;border-radius:28px;border:none;font-weight:600;font-size:15px;cursor:pointer;margin-top:8px}
+.newListPeople{flex:1;overflow:auto;background:#fff}
+.listPersonRow{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid #f0f2f5;cursor:pointer}
+.listSelectedTag{display:inline-block;background:#e9edef;color:#111;padding:8px 14px;border-radius:20px;margin:4px;font-size:13px}
 </style></head><body>
 <div class=top><span>YEKATI</span><span style="display:flex;gap:16px"><span onclick="document.getElementById('camIn').click()">📷</span><span onclick="openWaSettings()">⚙️</span></span></div>
 <div id=discTab><div class=filts><div class="filt on" onclick="filterChats(0)">Toutes</div><div class=filt onclick="filterChats(1)">Non lues</div><div class=filt onclick="filterChats(2)">Favoris</div><div class=filt onclick="filterChats(3)">Groupes</div><div class=filtPlus onclick="openNewList()">+</div></div>
 <div class=search><input id=searchIn oninput="render()" placeholder="Demander à Meta AI..."></div>
-<div class=metaAsk onclick="openChatById('meta')"><div><b>🤖 Meta AI - YEKATI</b><div style="font-size:12px">Clique - je réponds très bien à tout comme ici!</div><div style="font-size:10px;background:var(--accent);color:#fff;padding:4px 8px;border-radius:10px;display:inline-block;margin-top:4px">✅ YEKATI: Meta long + 📷 + 🎵 + 📞 + 🎤</div></div><span>💬</span></div><div class=main><div id=p1></div></div></div>
-<div id=actusTab class=hide><div class=main><div style="padding:16px;font-weight:700">Actus YEKATI</div><div style="display:flex;gap:12px;padding:12px;overflow:auto"><div onclick="document.getElementById('camIn').click()" style="width:72px;height:72px;border-radius:50%;background:var(--bg3);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;border:2px dashed var(--accent)">📷<span style="font-size:9px">Photo</span></div><div onclick="openTextStatus()" style="width:72px;height:72px;border-radius:50%;background:var(--bg3);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer">✏️<span style="font-size:9px">Texte</span></div><div onclick="openMusicStatus()" style="width:72px;height:72px;border-radius:50%;background:#00a884;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;color:#fff">🎵<span style="font-size:9px">Musique</span></div><div onclick="document.getElementById('fileIn').click()" style="width:72px;height:72px;border-radius:50%;background:var(--bg3);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer">🖼️<span style="font-size:9px">Fichier</span></div></div><div id=statusList></div></div></div>
-<div id=commTab class=hide><div class=main><div style="padding:20px"><h3>Communautés</h3><button onclick="openGroupModal()" style="margin-top:12px;padding:12px 20px;background:var(--accent);border:none;border-radius:10px;color:#fff;font-weight:700">+ Groupe</button><div id=commList></div></div></div></div>
-<div id=appTab class=hide><div class=main><div style="padding:16px;font-weight:700">Appels</div><div id=callList></div></div></div>
+<div class=metaAsk onclick="openChatById('meta')"><div><b>🤖 Meta AI - YEKATI</b><div style="font-size:12px">Je réponds très bien à tout!</div></div><span>💬</span></div><div class=main><div id=p1></div></div></div>
+<div id=actusTab class=hide><div class=main><div style="padding:16px;font-weight:700">Actus YEKATI</div><div style="display:flex;gap:12px;padding:12px;overflow:auto"><div onclick="document.getElementById('camIn').click()" style="width:72px;height:72px;border-radius:50%;background:var(--bg3);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;border:2px dashed var(--accent)">📷</div><div onclick="openTextStatus()" style="width:72px;height:72px;border-radius:50%;background:var(--bg3);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer">✏️</div><div onclick="openMusicStatus()" style="width:72px;height:72px;border-radius:50%;background:#00a884;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;color:#fff">🎵</div><div onclick="document.getElementById('fileIn').click()" style="width:72px;height:72px;border-radius:50%;background:var(--bg3);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer">🖼️</div></div><div id=statusList></div></div></div>
+<div id=commTab class=hide><div class=main><div style="padding:16px;font-weight:700;display:flex;justify-content:space-between"><span>Communautés YEKATI</span><button onclick="openCommModal()" style="padding:8px 14px;background:var(--accent);border:none;border-radius:8px;color:#fff">+ Nouvelle communauté</button></div><div id=commList></div><div id=commList2 style="padding:16px"></div></div></div>
+<div id=appTab class=hide><div class=main><div style="padding:16px;font-weight:700">Appels YEKATI</div><div id=callList></div></div></div>
 <div class=fab onclick="openPlusPage()">+</div>
-<div id=plusPage class=plusPage><div class=plusTop><span onclick="closePlusPage()" style="font-size:26px;cursor:pointer">←</span><input id=plusSearch placeholder="Rechercher..." oninput="renderPlus()"></div><div style="overflow:auto;flex:1"><div class=optItem onclick="closePlusPage();openGroupModal()"><div class=optIcon style="background:var(--accent)">👥</div><b>Nouveau groupe</b></div><div class=optItem onclick="closePlusPage();openAdd()"><div class=optIcon style="background:#007aff">👤</div><b>Nouveau contact</b></div><div style="padding:10px 16px;background:var(--bg3);font-size:12px">CONTACTS - <span id=contactCount>0</span></div><div id=plusContactList></div></div></div>
-<div id=newListPage class=newListPage><div style="background:#fff;padding:14px;display:flex;gap:12px"><span onclick="closeNewList()" style="font-size:24px">✕</span><b style="flex:1;text-align:center">Nouvelle liste</b></div><div style="flex:1;background:#f0f2f5;padding:16px"><input id=listNameInput placeholder="Nom liste" style="width:100%;padding:14px;border-radius:8px;border:1px solid #00a884"><button onclick="openListAddPeople()" style="width:100%;margin-top:12px;background:#f0f2f5;color:#111;padding:14px;border-radius:30px;border:none">👥 Ajouter personnes</button><div id=listSelectedPeople></div><button onclick="createList()" style="width:100%;background:#00a884;color:#fff;padding:14px;border-radius:30px;border:none;margin-top:16px">✓ Créer</button></div></div>
-<div id=listAddPeoplePage class=newListPage><div style="background:#fff;padding:12px;display:flex;gap:12px"><span onclick="closeListAddPeople()" style="font-size:22px">←</span><b>Ajouter</b></div><input id=listSearchPeople placeholder="Rechercher..." oninput="renderListAdd()" style="margin:10px;padding:12px;border-radius:8px;border:none;background:#f0f2f5"><div id=listPeopleList style="flex:1;overflow:auto;background:#fff"></div><div style="padding:12px;background:#fff"><button onclick="confirmListPeople()" style="width:100%;background:#00a884;color:#fff;padding:12px;border-radius:30px;border:none">Ajouter (<span id=listSelectedCount>0</span>)</button></div></div>
+
+<div id=plusPage class=plusPage>
+<div class=plusTop><span onclick="closePlusPage()" style="font-size:26px;cursor:pointer">←</span><input id=plusSearch placeholder="Rechercher..." oninput="renderPlus()"></div>
+<div style="overflow:auto;flex:1">
+<div class=optItem onclick="closePlusPage();openGroupModal()"><div class=optIcon style="background:#00a884;color:#fff">👥</div><div><b>Nouveau groupe</b></div></div>
+<div class=optItem onclick="closePlusPage();openCommModal()" style="background:#00a88411;border:2px solid #00a884"><div class=optIcon style="background:#ff7f00;color:#fff">🏘️</div><div><b>Nouvelle communauté</b><div style="font-size:11px;opacity:.6">Rassemblez groupes liés YEKATI</div></div></div>
+<div class=optItem onclick="closePlusPage();openAdd()"><div class=optIcon style="background:#007aff;color:#fff">👤</div><div><b>Nouveau contact</b></div></div>
+<div class=optItem onclick="closePlusPage();openNewList()" style="background:#00a88411"><div class=optIcon style="background:#00a884;color:#fff">📋</div><div><b>Nouvelle liste</b><div style="font-size:11px;opacity:.6">Filtrer discussions YEKATI</div></div></div>
+<div style="padding:10px 16px;background:var(--bg3);font-size:12px;font-weight:700">CONTACTS - <span id=contactCount>0</span></div>
+<div id=plusContactList></div>
+</div>
+</div>
+
+<!-- NOUVELLE LISTE - EXACT COMME TA CAPTURE - REFAIT BIEN -->
+<div id=newListPage class=newListPage>
+<div class=newListHeader><span onclick="closeNewList()" style="font-size:28px;cursor:pointer;color:#111">✕</span><b>Nouvelle liste</b><span style="width:28px"></span></div>
+<div class=newListBody>
+<input id=listNameInput class=newListInput placeholder="Nom liste" oninput="updateCreateBtn()">
+<div id=listSelectedPeople style="display:flex;flex-wrap:wrap;gap:4px"></div>
+<button class=newListAddBtn onclick="openListAddPeople()"><span>👥</span> Ajouter personnes</button>
+<div id=listInfo style="font-size:12px;color:#667781;text-align:center;margin-top:8px;display:none"></div>
+</div>
+<div style="padding:16px;background:#fff;border-top:1px solid #eee"><button class=newListCreateBtn onclick="createList()" id=createBtn>✓ Créer</button></div>
+</div>
+
+<div id=listAddPeoplePage class=newListPage>
+<div class=newListHeader><span onclick="closeListAddPeople()" style="font-size:26px;cursor:pointer;color:#111">←</span><b>Ajouter personnes</b><span style="width:26px"></span></div>
+<div style="padding:12px;background:#fff"><input id=listSearchPeople placeholder="Rechercher..." oninput="renderListAddPeople()" style="width:100%;padding:12px;border-radius:10px;border:none;background:#f0f2f5;outline:none;font-size:14px"></div>
+<div id=listPeopleList class=newListPeople></div>
+<div style="padding:16px;background:#fff;border-top:1px solid #eee"><button onclick="confirmListPeople()" style="width:100%;background:#00a884;color:#fff;padding:14px;border-radius:28px;border:none;font-weight:600">Ajouter (<span id=listSelectedCount>0</span>)</button></div>
+</div>
+
 <div class=bottom><div id=b1 class=on onclick="tab(1)">💬<br>Disc.</div><div id=b2 onclick="tab(2)">⭕<br>Actus</div><div id=b3 onclick="tab(3)">👥<br>Commu</div><div id=b4 onclick="tab(4)">📞<br>Appels</div></div>
 <div id=chatWin class=chatWin><div class=m><span onclick="closeChat()" style="font-size:26px;cursor:pointer">←</span><div class=av id=cAv></div><div style="flex:1"><b id=cNm></b><div style="font-size:12px;opacity:.7" id=cStatus>en ligne YEKATI</div></div><div style="display:flex;gap:6px"><div class=callBtn style="background:var(--bg3)" onclick="document.getElementById('camIn').click()">📷</div><div class=callBtn style="background:var(--bg3)" onclick="startAudioCall()">📞</div><div class=callBtn style="background:var(--accent)" onclick="startVideoCall()">📹</div></div></div><div class=chatBody id=chatBody></div><div class=inputBar><span onclick="document.getElementById('camIn').click()" style="font-size:22px;cursor:pointer">📷</span><span onclick="document.getElementById('fileIn').click()" style="font-size:20px;cursor:pointer">🖼️</span><input id=msgIn placeholder="Message YEKATI..." onkeydown="if(event.key=='Enter')send()"><span id=voiceBtn onclick="startVoice()" style="font-size:22px;cursor:pointer;background:var(--bg3);width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center">🎤</span><button onclick="send()" style="background:var(--accent);border:none;width:42px;height:42px;border-radius:50%;color:#fff">➤</button></div><div id=voiceBox class=hide style="background:#111;padding:12px;display:flex;justify-content:space-between;align-items:center"><span style="color:#f55">🔴 <span id=voiceTimer>0s</span></span><div style="display:flex;gap:8px"><button onclick="stopVoice(true)" style="background:var(--accent);color:#fff;border:none;padding:10px 14px;border-radius:20px">✅ Envoyer</button><button onclick="stopVoice(false)" style="background:#f55;color:#fff;border:none;padding:10px 14px;border-radius:20px">✕</button></div></div></div>
-<div id=msgMenu class=msgMenu><div onclick="replyMsg()">↩️ Répondre</div><div onclick="copyMsg()">📋 Copier</div><div onclick="forwardMsg()">➡️ Transférer</div><div onclick="deleteMsg()" style="color:#f55">🗑️ Supprimer</div><div onclick="hideMenu()" style="background:#f0f2f5;text-align:center">✕ Fermer</div></div>
-<div id=videoModal class=videoModal><div style="flex:1;position:relative;background:#111"><video id=remoteVideo autoplay playsinline style="width:100%;height:100%;object-fit:cover"></video><video id=localVideo autoplay playsinline muted style="position:absolute;bottom:20px;right:20px;width:120px;height:150px;border-radius:12px;border:2px solid #fff;background:#222"></video><div style="position:absolute;top:20px;left:16px;color:#fff"><b id=callName></b><div id=callTimer>Appel YEKATI...</div></div><div id=audioUI style="display:none;position:absolute;inset:0;background:#111;flex-direction:column;align-items:center;justify-content:center;color:#fff"><div style="width:120px;height:120px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-size:60px">📞</div><b id=audioName style="margin-top:16px;font-size:20px"></b><div id=audioTimer>Appel vocal YEKATI 📞</div></div></div><div style="background:#222;padding:20px;display:flex;justify-content:center;gap:24px"><div class=callBtn style="background:#f15c6d;width:64px;height:64px" onclick="endCall()">📵</div><div class=callBtn style="background:#333;width:64px;height:64px" onclick="toggleMute()">🎤</div><div class=callBtn style="background:#333;width:64px;height:64px" onclick="toggleSpeaker()">🔊</div></div></div>
+<div id=msgMenu class=msgMenu><div onclick="copyMsg()">📋 Copier</div><div onclick="forwardMsg()">➡️ Transférer</div><div onclick="deleteMsg()" style="color:#f55">🗑️ Supprimer</div><div onclick="hideMenu()" style="background:#f0f2f5;text-align:center">✕ Fermer</div></div>
+<div id=videoModal class=videoModal><div style="flex:1;position:relative;background:#111"><video id=remoteVideo autoplay playsinline style="width:100%;height:100%;object-fit:cover"></video><video id=localVideo autoplay playsinline muted style="position:absolute;bottom:20px;right:20px;width:120px;height:150px;border-radius:12px;border:2px solid #fff;background:#222"></video><div style="position:absolute;top:20px;left:16px;color:#fff"><b id=callName></b><div id=callTimer>Appel YEKATI...</div></div><div id=audioUI style="display:none;position:absolute;inset:0;background:#111;flex-direction:column;align-items:center;justify-content:center;color:#fff"><div style="width:120px;height:120px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-size:60px">📞</div><b id=audioName style="margin-top:16px;font-size:20px"></b><div id=audioTimer>Appel vocal YEKATI 📞</div></div></div><div style="background:#222;padding:20px;display:flex;justify-content:center;gap:24px"><div class=callBtn style="background:#f15c6d;width:64px;height:64px" onclick="endCall()">📵</div><div class=callBtn style="background:#333;width:64px;height:64px" onclick="toggleMute()">🎤</div></div></div>
 
-<!-- PARAMETRES WHATSAPP VRAI - COPIE EXACTE -->
-<div id=waSettings class=waSettings>
-<div class=waHeader><span onclick="closeWaSettings()" style="font-size:24px;cursor:pointer;color:#111">←</span><b style="color:#111;font-size:18px">Paramètres</b><span style="flex:1"></span><span style="color:#111;font-size:20px">🔍</span></div>
-<div class=waProfile onclick="openPage('profilePage')">
-<div class=av style="width:64px;height:64px;font-size:28px">D</div>
-<div style="flex:1"><div style="font-size:19px;color:#111">Dieumerci Yekati</div><div style="font-size:13px;color:#667781">Salut! J'utilise YEKATI</div></div>
-<div style="display:flex;gap:12px;font-size:22px"><span>📷</span><span onclick="event.stopPropagation(); openQRPage()">⬜</span></div>
-</div>
-<div class=waSection>
-<div class=waSetRow onclick="alert('Compte YEKATI')"><div class=waIcon>🔑</div><div class=waSetText><div class=waSetTitle>Compte</div><div class=waSetDesc>Notifications de sécurité, changer de numéro</div></div></div>
-<div class=waSetRow onclick="alert('Confidentialité YEKATI')"><div class=waIcon>🔒</div><div class=waSetText><div class=waSetTitle>Confidentialité</div><div class=waSetDesc>Bloquer des contacts, messages éphémères</div></div></div>
-<div class=waSetRow onclick="alert('Avatar YEKATI')"><div class=waIcon>😊</div><div class=waSetText><div class=waSetTitle>Avatar</div><div class=waSetDesc>Créer, modifier, photo de profil</div></div></div>
-<div class=waSetRow onclick="openPage('chatsPage')"><div class=waIcon>💬</div><div class=waSetText><div class=waSetTitle>Discussions</div><div class=waSetDesc>Thème, fonds d'écran, historique</div></div></div>
-<div class=waSetRow onclick="alert('Notifications YEKATI')"><div class=waIcon>🔔</div><div class=waSetText><div class=waSetTitle>Notifications</div><div class=waSetDesc>Sonneries des messages, groupes et appels</div></div></div>
-<div class=waSetRow onclick="openPage('storagePage')"><div class=waIcon>💾</div><div class=waSetText><div class=waSetTitle>Stockage et données</div><div class=waSetDesc>Gestion du réseau, téléchargement auto.</div></div></div>
-</div>
-<div class=waSection>
-<div class=waSetRow onclick="alert('Aide YEKATI')"><div class=waIcon>❓</div><div class=waSetText><div class=waSetTitle>Aide</div><div class=waSetDesc>Centre d'aide, nous contacter, politique</div></div></div>
-<div class=waSetRow onclick="openQRPage()"><div class=waIcon>👥</div><div class=waSetText><div class=waSetTitle>Inviter un ami</div><div class=waSetDesc></div></div></div>
-</div>
-<div class=waSection>
-<div class=waSetRow onclick="openPage('metaPage')"><div class=waIcon>🤖</div><div class=waSetText><div class=waSetTitle>Meta AI - YEKATI</div><div class=waSetDesc>Répond très bien à tout comme ici WhatsApp</div></div></div>
-<div class=waSetRow onclick="openMusicStatus()"><div class=waIcon>🎵</div><div class=waSetText><div class=waSetTitle>Statut Musique</div><div class=waSetDesc>Ajouter musique à statut - marche 100%</div></div></div>
-<div class=waSetRow onclick="document.getElementById('fileIn').click()"><div class=waIcon>🖼️</div><div class=waSetText><div class=waSetTitle>Choisir fichier image pour statut</div><div class=waSetDesc>Image, vidéo pour Actus YEKATI</div></div></div>
-</div>
-<div style="padding:20px;text-align:center;color:#667781;font-size:12px">YEKATI<br>de Meta</div>
-</div>
+<div id=waSettings class=waSettings><div class=waHeader><span onclick="closeWaSettings()" style="font-size:26px;cursor:pointer">←</span><b>Paramètres</b></div><div class=waProfile onclick="openQRPage()"><div class=avPic>D</div><div class=waProfileRight><div class=waProfileName>Dieumerci Yekati</div><div class=waProfileStatus>Salut! J'utilise YEKATI</div></div><div style="display:flex;gap:18px;align-items:center"><div style="font-size:22px">📷</div><div style="font-size:22px;color:#00a884">⬜</div></div></div><div class=waSection><div class=waRow onclick="openPage('accountPage')"><div class=waRowIcon>🔑</div><div class=waRowText><div class=waRowTitle>Compte</div><div class=waRowSub>Notifications sécurité, changer numéro</div></div></div><div class=waRow onclick="openPage('privacyPage')"><div class=waRowIcon>🔒</div><div class=waRowText><div class=waRowTitle>Confidentialité</div><div class=waRowSub>Bloquer contacts, messages éphémères</div></div></div><div class=waRow onclick="openPage('chatSetPage')"><div class=waRowIcon>💬</div><div class=waRowText><div class=waRowTitle>Discussions</div><div class=waRowSub>Thème, fonds d'écran, historique</div></div></div><div class=waRow onclick="openPage('notifPage')"><div class=waRowIcon>🔔</div><div class=waRowText><div class=waRowTitle>Notifications</div><div class=waRowSub>Sonneries messages, groupes, appels</div></div></div><div class=waRow onclick="openPage('storagePage')"><div class=waRowIcon>⭕</div><div class=waRowText><div class=waRowTitle>Stockage et données</div><div class=waRowSub>Gestion réseau</div></div></div></div><div class=waSection><div class=waRow onclick="openPage('helpPage')"><div class=waRowIcon>❓</div><div class=waRowText><div class=waRowTitle>Aide</div><div class=waRowSub>Centre d'aide</div></div></div><div class=waRow onclick="openPage('invitePage')"><div class=waRowIcon>👥</div><div class=waRowText><div class=waRowTitle>Inviter un ami</div></div></div></div><div class=waFooter>de<br><b>Meta</b></div></div>
 
-<!-- PAGE PROFIL COMME WHATSAPP -->
-<div id=profilePage class=waSettings><div class=waHeader><span onclick="closePage('profilePage')" style="font-size:24px;color:#111">←</span><b style="color:#111">Profil</b></div><div style="background:#fff;padding:24px;text-align:center"><div class=av style="width:120px;height:120px;margin:0 auto;font-size:50px">D</div><div style="margin-top:16px"><div style="font-size:20px;color:#111">Dieumerci Yekati</div><div style="color:#667781">+243 810 YEKATI</div></div><div style="margin-top:24px;text-align:left"><div style="color:#00a884;font-size:13px">Nom</div><div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid #eee;color:#111"><span>Dieumerci Yekati</span><span>✏️</span></div><div style="color:#00a884;font-size:13px;margin-top:16px">Actu</div><div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid #eee;color:#111"><span>Salut! J'utilise YEKATI</span><span>✏️</span></div><button onclick="document.getElementById('camIn').click()" style="width:100%;margin-top:20px;background:#00a884;color:#fff">📷 Changer photo profil</button><button onclick="openQRPage()" style="width:100%;margin-top:8px;background:#fff;color:#00a884;border:1px solid #00a884">⬜ Voir mon QR code</button></div></div></div>
+<div id=qrPage class=waQRPage><div class=waQRHeader><span onclick="closePage('qrPage')" style="font-size:26px;cursor:pointer;color:#fff">←</span><b style="color:#fff;font-size:18px">Code QR</b></div><div style="flex:1;background:#f0f2f5;display:flex;flex-direction:column;align-items:center;padding:20px;overflow:auto"><div style="background:#fff;width:100%;max-width:340px;border-radius:16px;padding:16px;text-align:center"><div style="width:240px;height:240px;margin:0 auto;background:#fff;display:flex;align-items:center;justify-content:center"><canvas id=qrCanvas width=220 height=220 style="width:220px;height:220px"></canvas></div><div style="font-size:20px;color:#111;margin-top:8px">Dieumerci Yekati</div><div style="font-size:13px;color:#667781">YEKATI</div><div style="margin-top:16px;background:#f0f2f5;padding:12px;border-radius:8px;font-size:12.5px;color:#667781;text-align:left">Votre code QR est privé. Si vous le partagez, on peut vous ajouter.</div></div><div style="width:100%;max-width:340px;margin-top:16px;display:flex;flex-direction:column;gap:10px"><button onclick="generateQR()" style="background:#fff;color:#008069;padding:14px;border-radius:24px;border:1px solid #ddd">🔄 Réinitialiser le code QR</button><div style="display:flex;gap:10px"><button onclick="document.getElementById('camIn').click()" style="flex:1;background:#008069;color:#fff;padding:14px;border-radius:24px;border:none">📷 Scanner le code</button><button style="flex:1;background:#fff;color:#008069;padding:14px;border-radius:24px;border:1px solid #ddd">↗️ Partager</button></div></div></div></div>
 
-<!-- QR CODE COMME WHATSAPP VRAI - REFAIT BIEN -->
-<div id=qrPage class=waQRPage>
-<div class=waHeader style="background:#00a884;color:#fff"><span onclick="closePage('qrPage')" style="font-size:24px;color:#fff;cursor:pointer">←</span><b style="color:#fff">Code QR</b><span style="flex:1"></span><span style="color:#fff">⤴️</span></div>
-<div style="flex:1;background:#f0f2f5;display:flex;flex-direction:column;align-items:center;padding:20px">
-<div style="background:#fff;width:100%;max-width:340px;border-radius:12px;padding:20px;text-align:center;box-shadow:0 1px 3px #0002">
-<div style="width:260px;height:260px;margin:0 auto;background:#fff;border-radius:12px;padding:12px;display:flex;align-items:center;justify-content:center">
-<canvas id=qrCanvas width=240 height=240 style="width:100%;height:100%"></canvas>
-</div>
-<div style="margin-top:16px"><div style="font-size:18px;color:#111;font-weight:600">Dieumerci Yekati</div><div style="font-size:13px;color:#667781">Code QR YEKATI</div></div>
-<div style="margin-top:16px;padding:12px;background:#f0f2f5;border-radius:8px;font-size:12px;color:#667781;text-align:left">Votre code QR est privé. Si vous le partagez avec quelqu'un, cette personne pourra scanner votre code QR avec l'appareil photo YEKATI pour vous ajouter comme contact.</div>
-</div>
-<div style="display:flex;gap:12px;margin-top:20px;width:100%;max-width:340px"><button onclick="generateQR()" style="flex:1;background:#fff;color:#00a884;padding:12px;border-radius:24px;border:1px solid #ddd">🔄 Réinitialiser le code QR</button></div>
-<div style="display:flex;gap:12px;margin-top:12px;width:100%;max-width:340px"><button onclick="document.getElementById('camIn').click()" style="flex:1;background:#00a884;color:#fff;padding:14px;border-radius:24px;border:none;font-weight:700">📷 Scanner le code</button><button onclick="alert('Partager QR YEKATI')" style="flex:1;background:#fff;color:#00a884;padding:14px;border-radius:24px;border:1px solid #ddd">⤴️ Partager</button></div>
-</div>
-</div>
-
-<div id=chatsPage class=waSettings><div class=waHeader><span onclick="closePage('chatsPage')" style="font-size:24px">←</span><b>Discussions</b></div><div class=waSection><div class=waSetRow><div class=waIcon>🎨</div><div class=waSetText><div class=waSetTitle>Thème</div><div class=waSetDesc>Sombre</div></div></div><div class=waSetRow><div class=waIcon>🖼️</div><div class=waSetText><div class=waSetTitle>Fonds d'écran</div></div></div></div></div>
-<div id=storagePage class=waSettings><div class=waHeader><span onclick="closePage('storagePage')" style="font-size:24px">←</span><b>Stockage et données</b></div><div class=waSection><div class=waSetRow><div class=waSetText><div class=waSetTitle>Gérer le stockage</div><div class=waSetDesc id=storSize>0 KB YEKATI</div></div></div><div class=waSetRow onclick="document.getElementById('fileIn').click()"><div class=waIcon>🖼️</div><div class=waSetText><div class=waSetTitle>Choisir fichier image pour statut</div></div></div><div class=waSetRow onclick="document.getElementById('camIn').click()"><div class=waIcon>📷</div><div class=waSetText><div class=waSetTitle>Prendre photo</div></div></div></div></div>
-<div id=metaPage class=waSettings><div class=waHeader><span onclick="closePage('metaPage')" style="font-size:24px">←</span><b>Meta AI - YEKATI</b></div><div style="padding:24px;text-align:center;background:#fff;flex:1"><div style="font-size:64px">🤖</div><h3>Meta AI même que ici WhatsApp!</h3><p style="font-size:14px;color:#667781;margin-top:12px">Je réponds LONG très bien à tout!</p><button onclick="closePage('metaPage');openChatById('meta')" style="width:100%;margin-top:20px;background:#00a884;color:#fff;padding:14px;border:none;border-radius:8px">💬 Ouvrir Meta AI YEKATI</button></div></div>
+<div id=accountPage class=waSettings><div class=waHeader><span onclick="closePage('accountPage')" style="font-size:26px;cursor:pointer">←</span><b>Compte</b></div></div>
+<div id=privacyPage class=waSettings><div class=waHeader><span onclick="closePage('privacyPage')" style="font-size:26px;cursor:pointer">←</span><b>Confidentialité</b></div></div>
+<div id=chatSetPage class=waSettings><div class=waHeader><span onclick="closePage('chatSetPage')" style="font-size:26px;cursor:pointer">←</span><b>Discussions</b></div></div>
+<div id=notifPage class=waSettings><div class=waHeader><span onclick="closePage('notifPage')" style="font-size:26px;cursor:pointer">←</span><b>Notifications</b></div></div>
+<div id=storagePage class=waSettings><div class=waHeader><span onclick="closePage('storagePage')" style="font-size:26px;cursor:pointer">←</span><b>Stockage</b></div></div>
+<div id=helpPage class=waSettings><div class=waHeader><span onclick="closePage('helpPage')" style="font-size:26px;cursor:pointer">←</span><b>Aide</b></div></div>
+<div id=invitePage class=waSettings><div class=waHeader><span onclick="closePage('invitePage')" style="font-size:26px;cursor:pointer">←</span><b>Inviter</b></div></div>
+<div id=metaPage class=waSettings><div class=waHeader><span onclick="closePage('metaPage')" style="font-size:26px;cursor:pointer">←</span><b>Meta AI YEKATI</b></div><div style="padding:24px;text-align:center;background:#fff;flex:1"><div style="font-size:64px">🤖</div><button onclick="closePage('metaPage');openChatById('meta')" style="width:100%;margin-top:20px;background:#00a884;color:#fff;padding:14px;border:none;border-radius:8px">💬 Ouvrir Meta AI</button></div></div>
 
 <div id=addModal class=modal><div class=box><h3>➕ Nouveau contact YEKATI</h3><input id=addPrenom placeholder="Prénom"><input id=addNom placeholder="Nom"><input id=addNum placeholder="+243..." type=tel><button onclick="addContact()">✅ Enregistrer</button><button onclick="closeM('addModal')" style="background:var(--bg3)">Annuler</button></div></div>
-<div id=groupModal class=modal><div class=box><h3>👥 Groupe YEKATI</h3><input id=groupName placeholder="Nom groupe"><div id=groupParticipants style="max-height:150px;overflow:auto"></div><button onclick="addGroup()">✅ Créer</button><button onclick="closeM('groupModal')" style="background:var(--bg3)">Annuler</button></div></div>
-<div id=textModal class=modal><div class=box><h3>✏️ Statut texte YEKATI</h3><textarea id=textIn placeholder="Quoi de neuf?" rows=3 style="background:#fff;color:#000;text-align:center;font-size:18px"></textarea><button onclick="addText()">Publier</button><button onclick="closeM('textModal')" style="background:var(--bg3)">Annuler</button></div></div>
-<div id=musicModal class=modal><div class=box style="max-width:460px"><h3>🎵 Musique YEKATI - Marche 100%</h3><input id=musicSearch placeholder="Tape: Fally, Dadju, Innoss, Burna, ou même aaa..." oninput="searchMusic()" onfocus="searchMusic()" style="background:#fff;color:#111"><div id=musicResults style="max-height:300px;overflow:auto;margin-top:10px;background:#fff;border-radius:10px;padding:6px"></div><div id=musicPlayer style="display:none;margin-top:12px;background:var(--bg3);padding:12px;border-radius:10px"><b id=nowPlaying style="color:#fff"></b><audio id=audioPrev controls style="width:100%;margin-top:8px"></audio><button onclick="addMusic()" style="width:100%;margin-top:10px">✅ Publier statut musique YEKATI 🎵</button></div><button onclick="closeM('musicModal')" style="background:var(--bg3)">Fermer</button></div></div>
+<div id=groupModal class=modal><div class=box><h3>👥 Nouveau groupe YEKATI</h3><input id=groupName placeholder="Nom du groupe"><div id=groupParticipants style="max-height:150px;overflow:auto"></div><button onclick="addGroup()">✅ Créer groupe</button><button onclick="closeM('groupModal')" style="background:var(--bg3)">Annuler</button></div></div>
+<div id=commModal class=modal><div class=box style="background:#fff;color:#111"><div style="text-align:center"><div style="width:80px;height:80px;background:#f0f2f5;border-radius:50%;margin:0 auto;display:flex;align-items:center;justify-content:center;font-size:40px">🏘️</div><h3 style="margin-top:12px">Nouvelle communauté YEKATI</h3><p style="font-size:13px;color:#667781;margin-top:8px">Rassemblez groupes liés</p></div><input id=commName placeholder="Nom communauté" style="background:#f0f2f5;color:#111"><textarea id=commDesc placeholder="Description (facultatif)" rows=2 style="background:#f0f2f5;color:#111"></textarea><button onclick="addCommunity()" style="width:100%;background:#00a884">✅ Créer communauté YEKATI</button><button onclick="closeM('commModal')" style="width:100%;background:#f0f2f5;color:#111">Annuler</button></div></div>
+<div id=textModal class=modal><div class=box><h3>✏️ Statut YEKATI</h3><textarea id=textIn placeholder="Quoi de neuf?" rows=3 style="background:#fff;color:#000;text-align:center;font-size:18px"></textarea><button onclick="addText()">Publier</button><button onclick="closeM('textModal')" style="background:var(--bg3)">Annuler</button></div></div>
+<div id=musicModal class=modal><div class=box style="max-width:460px"><h3>🎵 Musique YEKATI</h3><input id=musicSearch placeholder="Tape Fally, Dadju, Innoss..." oninput="searchMusic()" onfocus="searchMusic()" style="background:#fff;color:#111"><div id=musicResults style="max-height:300px;overflow:auto;margin-top:10px;background:#fff;border-radius:10px;padding:6px"></div><div id=musicPlayer style="display:none;margin-top:12px;background:var(--bg3);padding:12px;border-radius:10px"><b id=nowPlaying style="color:#fff"></b><audio id=audioPrev controls style="width:100%;margin-top:8px"></audio><button onclick="addMusic()" style="width:100%;margin-top:10px">✅ Publier 🎵</button></div><button onclick="closeM('musicModal')" style="background:var(--bg3)">Fermer</button></div></div>
 <div id=forwardModal class=modal><div class=box><h3>➡️ Transférer</h3><div id=forwardList style="max-height:250px;overflow:auto"></div><button onclick="closeM('forwardModal')" style="background:var(--bg3)">Annuler</button></div></div>
 <input type=file id=camIn accept="image/*" style="display:none" onchange="handleImg(this,'chat')">
 <input type=file id=fileIn accept="image/*,video/*" style="display:none" onchange="handleImg(this,'status')">
 <script>
-let chats=JSON.parse(localStorage.YK35_CHATS||'[]'),statuses=JSON.parse(localStorage.YK35_STATUS||'[]'),current=null,filter=0,selectedMusic=null,callTimerInt=null,lists=JSON.parse(localStorage.YK35_LISTS||'[]'),tempListPeople=[],selIdx=null,forwardTxt='',recorder=null,chunks=[],voiceInt=null,voiceSec=0;
+let chats=JSON.parse(localStorage.YK38_CHATS||'[]'),statuses=JSON.parse(localStorage.YK38_STATUS||'[]'),communities=JSON.parse(localStorage.YK38_COMM||'[]'),lists=JSON.parse(localStorage.YK38_LISTS||'[]'),current=null,filter=0,selectedMusic=null,callTimerInt=null,selIdx=null,forwardTxt='',recorder=null,chunks=[],voiceInt=null,voiceSec=0,tempListPeople=[];
 const allMusics=[
-{t:"Fally Ipupa - Eloko Oyo",a:"Fally Ipupa",u:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"},
+{t:"Fally Ipupa - Eloko Oyo",a:"Fally",u:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"},
 {t:"Dadju - Reine",a:"Dadju",u:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"},
-{t:"Innoss'B - Yo Pe",a:"Innoss'B",u:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3"},
-{t:"Gaz Mawete - Olingi Nini",a:"Gaz Mawete",u:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"},
-{t:"Ferre Gola - Jugement",a:"Ferre Gola",u:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"},
-{t:"Burna Boy - Last Last",a:"Burna Boy",u:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"},
-{t:"Aya Nakamura - Djadja",a:"Aya Nakamura",u:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"}
+{t:"Innoss'B - Yo Pe",a:"Innoss",u:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3"},
+{t:"Gaz Mawete - Olingi Nini",a:"Gaz",u:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"},
+{t:"Burna Boy - Last Last",a:"Burna",u:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"}
 ];
-if(!chats.find(c=>c.id=='meta'))chats.unshift({id:'meta',n:'Meta AI 🤖 YEKATI',m:'YEKATI: Meta même que ici WhatsApp - répond LONG très bien! Clique!',t:'maintenant',type:'ai',msgs:[{from:'ai',text:'Mbote Maître! YEKATI V35 - Paramètres comme WhatsApp vrai!\n\n✅ Paramètres refait exactement comme WhatsApp: Profil en haut avec photo + QR, puis Compte, Confidentialité, Avatar, Discussions, Notifications, Stockage, Aide, Inviter\n✅ QR refait bien pro comme WhatsApp vrai avec cadre blanc, explication\n✅ Juste YEKATI, pas YEKATI Plus\n✅ Musique, voice, photo tout marche!\n\nTeste Paramètres → tu vois comme WhatsApp vrai Maître!'}],fav:true});
+if(!chats.find(c=>c.id=='meta'))chats.unshift({id:'meta',n:'Meta AI 🤖 YEKATI',m:'YEKATI - Meta même que ici WhatsApp!',t:'maintenant',type:'ai',msgs:[{from:'ai',text:'Mbote Maître! V38 - Tout refait bien:\n\n✅ Paramètres comme vrai WhatsApp\n✅ Nouvelle communauté 🏘️\n✅ Nouvelle liste comme ta capture - Nom liste + Ajouter personnes + Créer\n\nTeste Maître!'}],fav:true});
 if(chats.length<2){chats.push({id:'1',n:'Maman Yekati',m:'Mbote',t:'Hier',type:'chat',msgs:[]});chats.push({id:'2',n:'Papa Yekati',m:'Boni?',t:'Hier',type:'chat',msgs:[]});}
-function save(){localStorage.YK35_CHATS=JSON.stringify(chats);localStorage.YK35_STATUS=JSON.stringify(statuses);localStorage.YK35_LISTS=JSON.stringify(lists);}
-function metaAnswer(q){
-let l=q.toLowerCase();
-if(l.match(/bonjour|salut|mbote/)) return `Mbote Maître! YEKATI V35 paramètres comme WhatsApp vrai!\n\nQR pro, profil, compte, confidentialité, tout comme WhatsApp! Teste "amour" je réponds LONG!`;
-if(l.includes('amour')) return `❤️ **AMOUR YEKATI - même que ici WhatsApp:**\n\nAmour = Confiance (QR) + Communication (voice 🎤) + Partage (statut 📷🎵)\n\nLingala: Nalingi yo, Motema na ngai\n\nAction: voice 30s, photo 📷, musique 🎵, appel 📞`;
-if(l.includes('business')||l.includes('argent')) return `💰 **BUSINESS YEKATI 50$:**\n\nStatuts 📷🖼️🎵: pagnes 15k → bénéfice 5k×4=20k/jour\n\nPondu + voice 🎤: 60k/jour\n\nLivraison 📞: 20k/jour`;
-return `**"${q}" - YEKATI réponse LONGUE même que ici WhatsApp!**\n\nImportant Kinshasa. Avec YEKATI 📷🎵📞🎤\n\nDis "explique comme enfant" je détaille!`;
-}
+function save(){localStorage.YK38_CHATS=JSON.stringify(chats);localStorage.YK38_STATUS=JSON.stringify(statuses);localStorage.YK38_COMM=JSON.stringify(communities);localStorage.YK38_LISTS=JSON.stringify(lists);}
+function metaAnswer(q){return `**"${q}" YEKATI** réponse...`;}
 function render(){
 let s=document.getElementById('searchIn').value.toLowerCase(),p1=document.getElementById('p1');p1.innerHTML='';
 let list=chats.filter(c=>{if(filter==1&&!c.unread)return false;if(filter==2&&!c.fav)return false;if(filter==3&&c.type!='group')return false;if(s&&!c.n.toLowerCase().includes(s))return false;return true;});
 list.forEach(c=>{let d=document.createElement('div');d.className='row';d.innerHTML=`<div class=av>${c.n[0]}</div><div class=inf><div class=nm><span>${c.n}</span><span>${c.t}</span></div><div class=msg>${c.m.substring(0,42)}</div></div>`;d.onclick=()=>openChatById(c.id);p1.appendChild(d);});
-let cl=document.getElementById('commList');if(cl)cl.innerHTML=chats.filter(c=>c.type=='group').map(g=>`<div class=row onclick="openChatById('${g.id}')"><div class=av>${g.n[0]}</div><div class=inf><div class=nm>${g.n}</div><div class=msg>${g.m}</div></div></div>`).join('')||'<p style=opacity:.5;padding:10px>Aucun groupe</p>';
+let cl=document.getElementById('commList');if(cl)cl.innerHTML=chats.filter(c=>c.type=='group').map(g=>`<div class=row onclick="openChatById('${g.id}')"><div class=av style="background:#ff7f00">${g.n[0]}</div><div class=inf><div class=nm>${g.n}</div><div class=msg>${g.m}</div></div></div>`).join('')||'';
+let cl2=document.getElementById('commList2');if(cl2)cl2.innerHTML=communities.map(cm=>`<div style="background:#fff;padding:14px;border-radius:12px;margin-bottom:10px;display:flex;gap:12px;align-items:center"><div style="width:48px;height:48px;background:#ff7f00;border-radius:12px;display:flex;align-items:center;justify-content:center;color:#fff">🏘️</div><div style="flex:1"><b style="color:#111">${cm.name}</b><div style="font-size:12px;color:#667781">${cm.desc||'Communauté YEKATI'}</div></div></div>`).join('')||'<div style="text-align:center;padding:20px;color:#667781">Aucune communauté - + Nouvelle communauté 🏘️</div>';
 let callL=document.getElementById('callList');if(callL)callL.innerHTML=chats.filter(c=>c.type!='ai').map(c=>`<div class=row><div class=av>${c.n[0]}</div><div class=inf><div class=nm>${c.n}</div></div><div style="display:flex;gap:6px"><div class=callBtn style="background:var(--bg3)" onclick="startAudioCall('${c.n}')">📞</div><div class=callBtn style="background:var(--accent)" onclick="startVideoCall('${c.n}')">📹</div></div></div>`).join('');
-let el=document.getElementById('storSize');if(el)el.innerText=(JSON.stringify(localStorage).length/1024).toFixed(1)+' KB YEKATI';
-save();renderStatus();renderPlus();
+save();renderStatus();renderPlus();renderListFilters();
 }
-function renderStatus(){let sl=document.getElementById('statusList');sl.innerHTML=statuses.map(s=>`<div class=row><div class=av style="overflow:hidden">${s.img?`<img src=${s.img} style=width:100%;height:100%;object-fit:cover>`:s.type=='text'?'✏️':s.type=='voice'?'🎤':'🎵'}</div><div class=inf><div class=nm><span>${s.type} YEKATI</span><span>${s.time}</span></div><div class=msg>${s.text||s.title||'Statut'}</div></div></div>`).join('')||'<div style=padding:30px;text-align:center;opacity:.4>Pas de statut - Clique 📷 🖼️ 🎵</div>';}
+function renderListFilters(){
+let container=document.querySelector('.filts');
+container.querySelectorAll('.filtList').forEach(e=>e.remove());
+lists.forEach(ls=>{
+let d=document.createElement('div');d.className='filt filtList';d.innerText=ls.name;
+d.style.background=filter===ls.name?'var(--accent)':'var(--bg3)';
+d.onclick=()=>{
+filter=ls.name;
+document.querySelectorAll('.filts.filt').forEach(e=>e.classList.remove('on'));
+d.classList.add('on');
+let p1=document.getElementById('p1');p1.innerHTML='';
+let filtered=chats.filter(c=>ls.people.includes(c.id));
+filtered.forEach(c=>{let row=document.createElement('div');row.className='row';row.innerHTML=`<div class=av>${c.n[0]}</div><div class=inf><div class=nm><span>${c.n}</span></div><div class=msg>${c.m}</div></div>`;row.onclick=()=>openChatById(c.id);p1.appendChild(row);});
+};
+container.insertBefore(d,container.querySelector('.filtPlus'));
+});
+}
+function renderStatus(){let sl=document.getElementById('statusList');sl.innerHTML=statuses.map(s=>`<div class=row><div class=av style="overflow:hidden">${s.img?`<img src=${s.img} style=width:100%;height:100%;object-fit:cover>`:s.type=='text'?'✏️':s.type=='voice'?'🎤':'🎵'}</div><div class=inf><div class=nm><span>${s.type} YEKATI</span><span>${s.time}</span></div><div class=msg>${s.text||s.title||'Statut'}</div></div></div>`).join('')||'<div style=padding:30px;text-align:center;opacity:.4>Pas de statut</div>';}
 function renderPlus(){
 let s=document.getElementById('plusSearch').value.toLowerCase(),el=document.getElementById('plusContactList'),cnt=document.getElementById('contactCount');
 let contacts=chats.filter(c=>c.type!='ai'&&c.type!='group');if(s)contacts=contacts.filter(c=>c.n.toLowerCase().includes(s));
@@ -150,15 +163,52 @@ if(cnt)cnt.innerText=contacts.length;if(!el)return;
 el.innerHTML=contacts.map(c=>`<div class=row onclick="openChatById('${c.id}');closePlusPage()"><div class=av>${c.n[0]}</div><div class=inf><div class=nm><span>${c.n}</span></div><div class=msg>${c.m}</div></div></div>`).join('');
 let gp=document.getElementById('groupParticipants');if(gp)gp.innerHTML=chats.filter(c=>c.type!='ai').map(c=>`<label style="display:flex;gap:10px;padding:8px 0"><input type=checkbox value="${c.id}"><span>${c.n}</span></label>`).join('');
 }
-function filterChats(i){filter=i;document.querySelectorAll('.filts.filt').forEach((e,j)=>{if(j<4)e.classList.toggle('on',j==i)});render();}
-function openNewList(){document.getElementById('newListPage').classList.add('open');tempListPeople=[];document.getElementById('listSelectedPeople').innerHTML='';}
+function filterChats(i){filter=i;document.querySelectorAll('.filts.filt').forEach((e,j)=>{if(j<4)e.classList.toggle('on',j==i);if(j>=4)e.classList.remove('on');});render();}
+function openNewList(){
+document.getElementById('newListPage').classList.add('open');
+tempListPeople=[];document.getElementById('listSelectedPeople').innerHTML='';document.getElementById('listNameInput').value='';document.getElementById('listInfo').style.display='none';
+}
 function closeNewList(){document.getElementById('newListPage').classList.remove('open');}
-function openListAddPeople(){document.getElementById('listAddPeoplePage').classList.add('open');renderListAdd();}
+function openListAddPeople(){document.getElementById('listAddPeoplePage').classList.add('open');renderListAddPeople();}
 function closeListAddPeople(){document.getElementById('listAddPeoplePage').classList.remove('open');}
-function renderListAdd(){let s=document.getElementById('listSearchPeople').value.toLowerCase();let el=document.getElementById('listPeopleList');let cs=chats.filter(c=>c.type!='ai');if(s)cs=cs.filter(c=>c.n.toLowerCase().includes(s));el.innerHTML=cs.map(c=>{let ch=tempListPeople.includes(c.id)?'checked':'';return `<label class=row><input type=checkbox value="${c.id}" ${ch} onchange="toggleP('${c.id}')"><div class=av>${c.n[0]}</div><div class=inf>${c.n}</div></label>`}).join('');document.getElementById('listSelectedCount').innerText=tempListPeople.length;}
-function toggleP(id){if(tempListPeople.includes(id))tempListPeople=tempListPeople.filter(x=>x!=id);else tempListPeople.push(id);document.getElementById('listSelectedCount').innerText=tempListPeople.length;}
-function confirmListPeople(){closeListAddPeople();let c=document.getElementById('listSelectedPeople');c.innerHTML=tempListPeople.map(id=>{let ch=chats.find(x=>x.id==id);return ch?`<span style="display:inline-block;background:#e9edef;padding:6px 10px;border-radius:16px;margin:4px">${ch.n}</span>`:''}).join('');}
-function createList(){let n=document.getElementById('listNameInput').value.trim();if(!n)return alert('Nom!');if(tempListPeople.length==0)return alert('Ajoute!');lists.push({name:n,people:tempListPeople});save();closeNewList();render();alert('✅ Liste "'+n+'" créée!');}
+function renderListAddPeople(){
+let s=document.getElementById('listSearchPeople').value.toLowerCase();
+let el=document.getElementById('listPeopleList');
+let cs=chats.filter(c=>c.type!='ai');
+if(s)cs=cs.filter(c=>c.n.toLowerCase().includes(s));
+el.innerHTML=cs.map(c=>{
+let ch=tempListPeople.includes(c.id)?'checked':'';
+return `<label class=listPersonRow><input type=checkbox value="${c.id}" ${ch} onchange="toggleListPerson('${c.id}')" style="width:20px;height:20px"><div class=av style="width:40px;height:40px">${c.n[0]}</div><div style="flex:1;color:#111"><b>${c.n}</b><div style="font-size:12px;color:#667781">${c.m}</div></div></label>`;
+}).join('');
+document.getElementById('listSelectedCount').innerText=tempListPeople.length;
+}
+function toggleListPerson(id){
+if(tempListPeople.includes(id))tempListPeople=tempListPeople.filter(x=>x!=id);else tempListPeople.push(id);
+document.getElementById('listSelectedCount').innerText=tempListPeople.length;
+}
+function confirmListPeople(){
+closeListAddPeople();
+let cont=document.getElementById('listSelectedPeople');
+cont.innerHTML=tempListPeople.map(id=>{
+let c=chats.find(x=>x.id==id);
+return c?`<span class=listSelectedTag>${c.n} ✕</span>`:'';}).join('');
+let info=document.getElementById('listInfo');
+if(tempListPeople.length>0){info.style.display='block';info.innerText=tempListPeople.length+' personnes sélectionnées YEKATI';}
+updateCreateBtn();
+}
+function updateCreateBtn(){
+let name=document.getElementById('listNameInput').value.trim();
+let btn=document.getElementById('createBtn');
+if(name&&tempListPeople.length>0){btn.style.opacity='1';}else{btn.style.opacity='0.7';}
+}
+function createList(){
+let name=document.getElementById('listNameInput').value.trim();
+if(!name)return alert('Entre Nom liste YEKATI!');
+if(tempListPeople.length==0)return alert('Ajoute personnes YEKATI! Clique "Ajouter personnes"!');
+lists.push({name:name,people:tempListPeople});
+save();closeNewList();render();
+alert('✅ Liste YEKATI "'+name+'" créée avec '+tempListPeople.length+' personnes! Tu la vois en haut dans filtres!');
+}
 function openChatById(id){current=chats.find(c=>c.id==id);if(!current)return;document.getElementById('cNm').innerText=current.n;document.getElementById('cAv').innerText=current.n[0];document.getElementById('chatWin').classList.add('open');showMsgs();}
 function closeChat(){document.getElementById('chatWin').classList.remove('open');current=null;}
 function showMsgs(){
@@ -177,15 +227,14 @@ function showMenu(e,idx,m){if(e) e.stopPropagation();selIdx=idx;forwardTxt=m.tex
 function hideMenu(){document.getElementById('msgMenu').classList.remove('open');}
 function copyMsg(){if(selIdx===null)return;navigator.clipboard?navigator.clipboard.writeText(forwardTxt).then(()=>alert('📋 Copié!')):prompt('Copiez:',forwardTxt);hideMenu();}
 function forwardMsg(){let el=document.getElementById('forwardList');el.innerHTML=chats.filter(c=>c.id!=current.id).map(c=>`<div class=row onclick="doForward('${c.id}')"><div class=av>${c.n[0]}</div><div class=inf><b>${c.n}</b></div></div>`).join('');document.getElementById('forwardModal').classList.add('open');hideMenu();}
-function doForward(toId){let to=chats.find(c=>c.id==toId);to.msgs.push({from:'me',text:forwardTxt});to.m=forwardTxt.substring(0,30);closeM('forwardModal');render();alert('✅ Transféré à '+to.n);}
+function doForward(toId){let to=chats.find(c=>c.id==toId);to.msgs.push({from:'me',text:forwardTxt});to.m=forwardTxt.substring(0,30);closeM('forwardModal');render();alert('✅ Transféré');}
 function deleteMsg(){if(selIdx===null)return;if(confirm('Supprimer?')){current.msgs.splice(selIdx,1);save();showMsgs();render();}hideMenu();}
-function replyMsg(){hideMenu();}
 function send(){
 let inp=document.getElementById('msgIn'),txt=inp.value.trim();if(!txt||!current)return;
 current.msgs.push({from:'me',text:txt});current.m=txt;inp.value='';showMsgs();
 if(current.type=='ai'){
 document.getElementById('cStatus').innerText='Meta AI écrit...';
-setTimeout(()=>{let rep=metaAnswer(txt);current.msgs.push({from:'ai',text:rep});current.m=rep.substring(0,45)+'...';document.getElementById('cStatus').innerText='en ligne';showMsgs();render();},900);
+setTimeout(()=>{let rep=metaAnswer(txt);current.msgs.push({from:'ai',text:rep});current.m=rep.substring(0,45)+'...';document.getElementById('cStatus').innerText='en ligne';showMsgs();render();},800);
 }else render();
 }
 function openPlusPage(){document.getElementById('plusPage').classList.add('open');renderPlus();}
@@ -193,11 +242,19 @@ function closePlusPage(){document.getElementById('plusPage').classList.remove('o
 function openAdd(){document.getElementById('addModal').classList.add('open');}
 function addContact(){let pre=document.getElementById('addPrenom').value.trim(),nom=document.getElementById('addNom').value.trim(),num=document.getElementById('addNum').value.trim();if(!pre&&!nom)return alert('Prénom!');let full=(pre+' '+nom).trim();let id=Date.now()+'';chats.push({id,n:full,numero:num,m:'Nouveau YEKATI',t:'maintenant',type:'chat',msgs:[]});closeM('addModal');render();openChatById(id);}
 function openGroupModal(){document.getElementById('groupModal').classList.add('open');renderPlus();}
-function addGroup(){let n=document.getElementById('groupName').value.trim();if(!n)return;chats.push({id:'g'+Date.now(),n:n,m:'Groupe YEKATI',t:'maintenant',type:'group',msgs:[]});closeM('groupModal');render();}
+function addGroup(){let n=document.getElementById('groupName').value.trim();if(!n)return;chats.push({id:'g'+Date.now(),n:n,m:'Groupe YEKATI',t:'maintenant',type:'group',msgs:[]});closeM('groupModal');render();tab(3);}
+function openCommModal(){document.getElementById('commModal').classList.add('open');}
+function addCommunity(){
+let n=document.getElementById('commName').value.trim(),d=document.getElementById('commDesc').value.trim();
+if(!n)return alert('Nom communauté!');
+communities.push({id:'cm'+Date.now(),name:n,desc:d,groups:[],members:[]});
+closeM('commModal');document.getElementById('commName').value='';document.getElementById('commDesc').value='';
+save();render();tab(3);alert('✅ Communauté YEKATI "'+n+'" créée! 🏘️');
+}
 function openTextStatus(){document.getElementById('textModal').classList.add('open');}
 function openMusicStatus(){document.getElementById('musicModal').classList.add('open');searchMusic();}
 function closeM(id){document.getElementById(id).classList.remove('open');}
-function openPage(id){document.getElementById(id).classList.add('open');}
+function openPage(id){document.getElementById(id).classList.add('open');if(id=='qrPage')generateQR();}
 function closePage(id){document.getElementById(id).classList.remove('open');}
 function openWaSettings(){document.getElementById('waSettings').classList.add('open');}
 function closeWaSettings(){document.getElementById('waSettings').classList.remove('open');}
@@ -207,7 +264,7 @@ function handleImg(inp,mode){
 let f=inp.files[0];if(!f)return;let r=new FileReader();
 r.onload=e=>{
 if(mode=='chat'&&current){current.msgs.push({from:'me',text:'📷 Photo YEKATI',img:e.target.result});current.m='📷 Photo';showMsgs();render();}
-else{statuses.unshift({type:'image',img:e.target.result,text:'Photo YEKATI 📷',time:'maintenant'});save();renderStatus();tab(2);alert('✅ Statut image YEKATI publié!');}
+else{statuses.unshift({type:'image',img:e.target.result,text:'Photo YEKATI 📷',time:'maintenant'});save();renderStatus();tab(2);alert('✅ Statut publié!');}
 };
 r.readAsDataURL(f);inp.value='';
 }
@@ -237,23 +294,19 @@ document.getElementById('musicPlayer').style.display='block';
 function addMusic(){if(!selectedMusic)return;statuses.unshift({type:'music',title:selectedMusic.title,text:selectedMusic.title,time:'maintenant'});closeM('musicModal');save();renderStatus();tab(2);alert('✅ Statut musique YEKATI publié: '+selectedMusic.title);}
 function generateQR(){
 let c=document.getElementById('qrCanvas'),ctx=c.getContext('2d');
-ctx.fillStyle='#fff';ctx.fillRect(0,0,240,240);
+ctx.fillStyle='#fff';ctx.fillRect(0,0,220,220);
 ctx.fillStyle='#000';
-// Bordure QR comme vrai
 for(let i=0;i<3;i++){
-let x=i==1?180:10, y=i==2?180:10;
-ctx.fillStyle='#000';ctx.fillRect(x,y,50,50);
-ctx.fillStyle='#fff';ctx.fillRect(x+5,y+5,40,40);
-ctx.fillStyle='#000';ctx.fillRect(x+15,y+15,20,20);
+let x=i==1?160:10, y=i==2?160:10;
+ctx.fillRect(x,y,50,50);ctx.fillStyle='#fff';ctx.fillRect(x+6,y+6,38,38);ctx.fillStyle='#000';ctx.fillRect(x+16,y+16,18,18);ctx.fillStyle='#000';
 }
-// Points random mais organisé
-for(let y=0;y<24;y++)for(let x=0;x<24;x++){
-if((x<7&&y<7)||(x>16&&y<7)||(x<7&&y>16))continue;
-if(Math.random()>0.5){ctx.fillRect(70+x*6,10+y*6,4,4);}
+ctx.fillStyle='#000';
+for(let y=0;y<22;y++)for(let x=0;x<22;x++){
+if((x<7&&y<7)||(x>14&&y<7)||(x<7&&y>14))continue;
+if(Math.random()>0.52)ctx.fillRect(70+x*5.5,10+y*5.5,4,4);
 }
-// Centre YEKATI
-ctx.fillStyle='#00a884';ctx.fillRect(85,100,70,40);
-ctx.fillStyle='#fff';ctx.font='bold 12px system-ui';ctx.fillText('YEKATI',108,124);
+ctx.fillStyle='#00a884';ctx.fillRect(80,95,60,30);
+ctx.fillStyle='#fff';ctx.font='bold 11px system-ui';ctx.fillText('YEKATI',98,114);
 }
 async function startVideoCall(name){
 name=name||current?.n||'Contact';
@@ -270,7 +323,7 @@ let sec=0;callTimerInt=setInterval(()=>{sec++;let m=Math.floor(sec/60),s=sec%60;
 try{await navigator.mediaDevices.getUserMedia({audio:true});}catch(e){}
 }
 function endCall(){document.getElementById('videoModal').classList.remove('open');clearInterval(callTimerInt);let lv=document.getElementById('localVideo'),rv=document.getElementById('remoteVideo');if(lv.srcObject)lv.srcObject.getTracks().forEach(t=>t.stop());if(rv.srcObject)rv.srcObject.getTracks().forEach(t=>t.stop());}
-function toggleMute(){alert('🎤 Micro YEKATI');}function toggleSpeaker(){alert('🔊 Haut-parleur YEKATI');}
+function toggleMute(){alert('🎤 Micro YEKATI');}
 async function startVoice(){
 let box=document.getElementById('voiceBox');
 if(recorder&&recorder.state=='recording'){stopVoice(true);return;}
