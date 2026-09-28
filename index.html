@@ -1,74 +1,165 @@
-<!DOCTYPE html>
+"<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yekati - Messagerie</title>
+    <!-- Chargement des icônes Google -->
+    <link href="https://googleapis.com" rel="stylesheet">
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { display: flex; height: 100vh; background-color: #f0f2f5; }
-        #app-container { display: flex; width: 100%; height: 100%; background: #fff; }
-        
-        /* Barre latérale (Contacts) */
-        #sidebar { width: 30%; border-right: 1px solid #ddd; background: #fff; display: flex; flex-direction: column; }
-        #user-profile { padding: 20px; background: #ededed; font-weight: bold; font-size: 1.1em; border-bottom: 1px solid #ddd; }
-        #chat-list { flex: 1; overflow-y: auto; list-style: none; }
-        .chat-item { padding: 15px; border-bottom: 1px solid #f2f2f2; cursor: pointer; transition: 0.3s; }
-        .chat-item:hover { background: #f5f6f6; }
-        .chat-item.active { background: #ebebeb; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
-        /* Zone de discussion principale */
-        #chat-area { width: 70%; display: flex; flex-direction: column; background: #efeae2; }
-        #chat-header { padding: 15px 20px; background: #ededed; font-weight: bold; border-bottom: 1px solid #ddd; }
-        #messages-container { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
-        
-        /* Bulles de messages style WhatsApp */
-        .message { max-width: 60%; padding: 10px 15px; border-radius: 8px; font-size: 0.95em; position: relative; word-wrap: break-word; }
-        .message.sent { background: #d9fdd3; align-self: flex-end; }
-        .message.received { background: #ffffff; align-self: flex-start; }
-        .message .time { font-size: 0.75em; color: #667781; margin-top: 5px; text-align: right; display: block; }
+        body {
+            background-color: #dadbd4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
 
-        /* Zone de saisie du texte */
-        #input-area { padding: 10px 20px; background: #f0f2f5; display: flex; gap: 10px; align-items: center; }
-        #message-input { flex: 1; padding: 12px; border: none; border-radius: 8px; outline: none; font-size: 1em; }
-        #send-btn { padding: 12px 25px; background: #00a884; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
-        #send-btn:hover { background: #008f72; }
-    </style>
-</head>
-<body>
+        .app-container {
+            display: flex;
+            width: 1396px;
+            max-width: 100%;
+            height: 95vh;
+            background-color: #ededed;
+            box-shadow: 0 1px 1px 0 rgba(0,0,0,.06), 0 2px 5px 0 rgba(0,0,0,.2);
+        }
 
-    <div id="app-container">
-        <!-- Barre latérale -->
-        <div id="sidebar">
-            <div id="user-profile">Mon Profil Yekati</div>
-            <ul id="chat-list">
-                <li class="chat-item active" onclick="selectChat('salon_general')">💬 Salon Général (Test)</li>
-            </ul>
-        </div>
+        /* Barre latérale gauche (Discussions) */
+        .sidebar {
+            width: 30%;
+            border-right: 1px solid #e0e0e0;
+            display: flex;
+            flex-direction: column;
+            background-color: #ffffff;
+        }
 
-        <!-- Zone des discussions -->
-        <div id="chat-area">
-            <div id="chat-header">Discussions en temps réel</div>
-            <div id="messages-container" id="messages"></div>
-            
-            <!-- Formulaire d'envoi -->
-            <form id="input-area" onsubmit="handleSendMessage(event)">
-                <input type="text" id="message-input" placeholder="Tapez un message..." required autocomplete="off">
-                <button type="submit" id="send-btn">Envoyer</button>
-            </form>
-        </div>
-    </div>
+        .sidebar-header {
+            height: 60px;
+            background-color: #eeeeee;
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            justify-content: space-between;
+        }
 
-    <!-- Chargement des modules Firebase SDK v9 -->
-    <script type="module">
-        import { initializeApp } from "https://gstatic.com";
-        import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp } from "https://gstatic.com";
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #00bfa5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
 
-        // CONFIGURATION FIREBASE : Remplacez par vos propres clés issues de votre console Firebase
-       apikey: "AIzaSyCUIDqujmd-LBMYjol_Xdvfgkk8UQD-sWw",
-           authDomain: "://firebaseapp.com,
-           projetid: "yekati-f326b",
-           storageBucket: "://appspot.com",
-           messagingSenderId: "824992370176",
-           appId: "1:824992370176:web:f60fe793b9c55d58745
+        .search-container {
+            padding: 8px;
+            background-color: #f6f6f6;
+        }
 
+        .search-box {
+            width: 100%;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 20px;
+            background-color: #ffffff;
+            outline: none;
+        }
+
+        .chats-list {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .chat-item {
+            display: flex;
+            padding: 12px 16px;
+            align-items: center;
+            cursor: pointer;
+            border-bottom: 1px solid #f2f2f2;
+        }
+
+        .chat-item:hover {
+            background-color: #f5f5f5;
+        }
+
+        .chat-details {
+            margin-left: 15px;
+            flex: 1;
+        }
+
+        .chat-name {
+            font-weight: 600;
+            font-size: 16px;
+            color: #111;
+        }
+
+        /* Zone principale droite (Messages) */
+        .main-chat {
+            width: 70%;
+            display: flex;
+            flex-direction: column;
+            background-color: #efeae2;
+            position: relative;
+        }
+
+        .chat-header {
+            height: 60px;
+            background-color: #eeeeee;
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .messages-container {
+            flex: 1;
+            padding: 20px 40px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .message {
+            max-width: 60%;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 14.5px;
+            position: relative;
+            line-height: 19px;
+            word-wrap: break-word;
+        }
+
+        .message.sent {
+            background-color: #d9fdd3;
+            align-self: flex-end;
+        }
+
+        .message.received {
+            background-color: #ffffff;
+            align-self: flex-start;
+        }
+
+        .message-time {
+            font-size: 10px;
+            color: #667781;
+            text-align: right;
+            margin-top: 4px;
+        }
+
+        /* Zone de saisie tout en bas */
+        .input-container {
+            height: 62px;
+            background-color: #f0f2f5;
+            display: flex;
+            align-items: cen
