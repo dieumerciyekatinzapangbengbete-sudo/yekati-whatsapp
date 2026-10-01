@@ -4,58 +4,229 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yekati - Messagerie</title>
-    <link href="https://googleapis.com" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-        body { background-color: #dadbd4; display: flex; justify-content: center; align-items: center; height: 100vh; }
-        .app-container { display: flex; width: 1396px; max-width: 100%; height: 95vh; background-color: #ededed; box-shadow: 0 2px 5px rgba(0,0,0,.2); }
-        .sidebar { width: 30%; border-right: 1px solid #e0e0e0; display: flex; flex-direction: column; background-color: #ffffff; }
-        .sidebar-header { height: 60px; background-color: #eeeeee; display: flex; align-items: center; padding: 0 16px; justify-content: space-between; }
-        .avatar { width: 40px; height: 40px; border-radius: 50%; background-color: #00bfa5; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; }
-        .search-container { padding: 8px; background-color: #f6f6f6; }
-        .search-box { width: 100%; padding: 8px 12px; border: none; border-radius: 20px; outline: none; }
-        .chats-list { flex: 1; overflow-y: auto; }
-        .chat-item { display: flex; padding: 12px 16px; align-items: center; cursor: pointer; border-bottom: 1px solid #f2f2f2; }
-        .chat-details { margin-left: 15px; flex: 1; }
-        .chat-name { font-weight: 600; font-size: 16px; }
-        .main-chat { width: 70%; display: flex; flex-direction: column; background-color: #efeae2; }
-        .chat-header { height: 60px; background-color: #eeeeee; display: flex; align-items: center; padding: 0 16px; border-bottom: 1px solid #e0e0e0; }
-        .messages-container { flex: 1; padding: 20px 40px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
-        .message { max-width: 60%; padding: 8px 12px; border-radius: 8px; font-size: 14.5px; line-height: 19px; word-wrap: break-word; }
-        .message.sent { background-color: #d9fdd3; align-self: flex-end; }
-        .message.received { background-color: #ffffff; align-self: flex-start; }
-        .message-time { font-size: 10px; color: #667781; text-align: right; margin-top: 4px; }
-        .input-container { height: 62px; background-color: #f0f2f5; display: flex; align-items: center; padding: 5px 10px; gap: 10px; }
-        .message-input { flex: 1; height: 42px; padding: 10px 15px; border: none; border-radius: 8px; outline: none; font-size: 15px; }
-        .send-btn { background: none; border: none; color: #54656f; cursor: pointer; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #d1d7db;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        #app-container {
+            width: 100%;
+            max-width: 1000px;
+            height: 95vh;
+            background-color: #efeae2;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        /* Entête style WhatsApp */
+        header {
+            background-color: #008069;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        header .status {
+            font-size: 12px;
+            font-weight: normal;
+            margin-left: 10px;
+            color: #d1f4cc;
+        }
+
+        /* Zone d'affichage des messages */
+        #zone-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background-image: url('https://githubusercontent.com');
+            background-opacity: 0.4;
+        }
+
+        /* Bulles de discussion */
+        .message {
+            max-width: 65%;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 15px;
+            line-height: 1.4;
+            position: relative;
+            word-wrap: break-word;
+        }
+
+        .envoye {
+            background-color: #d9fdd3;
+            align-self: flex-end;
+            box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+        }
+
+        .recu {
+            background-color: #ffffff;
+            align-self: flex-start;
+            box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+        }
+
+        /* Barre d'envoi en bas */
+        footer {
+            background-color: #f0f2f5;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        #input-message {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            outline: none;
+            background-color: white;
+        }
+
+        #btn-envoyer {
+            background-color: #008069;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 15px;
+        }
+
+        #btn-envoyer:hover {
+            background-color: #006653;
+        }
     </style>
 </head>
 <body>
 
-    <div class="app-container">
-        <div class="sidebar">
-            <div class="sidebar-header">
-                <div class="avatar" title="Dieu Merci">DM</div>
-                <span class="material-icons" style="color: #54656f;">message</span>
-            </div>
-            <div class="search-container"><input type="text" class="search-box" placeholder="Rechercher ou démarrer une discussion"></div>
-            <div class="chats-list">
-                <div class="chat-item">
-                    <div class="avatar">G1</div>
-                    <div class="chat-details"><div class="chat-name">Groupe d'étude Yekati</div></div>
-                </div>
-            </div>
-        </div>
+<div id="app-container">
+    <!-- Barre du haut -->
+    <header>
+        <div>Yekati Chat</div>
+        <div class="status">● En ligne (Firebase connecté)</div>
+    </header>
 
-        <div class="main-chat">
-            <div class="chat-header">
-                <div class="avatar">G1</div>
-                <div class="chat-details">
-                    <div class="chat-name">Groupe d'étude Yekati</div>
-                    <div style="font-size: 12px; color: #667781;">En ligne</div>
-                </div>
-            </div>
-            <div class="messages-container" id="messagesContainer"></div>
-            <form class="input-container" id="messageForm">
-                <input type="text" id="messageInput" class="message-input" placeholder="Tapez un message" autocomplete="off" required>
-                <button type="submit" class="send-b
+    <!-- Zone de discussion -->
+    <div id="zone-messages" id="zone-messages"></div>
+
+    <!-- Barre de saisie -->
+    <footer>
+        <input type="text" id="input-message" placeholder="Tapez un message..." autocomplete="off">
+        <button id="btn-envoyer">Envoyer</button>
+    </footer>
+</div>
+
+<!-- Scripts Firebase de base et Firestore -->
+<script src="https://gstatic.com"></script>
+<script src="https://gstatic.com"></script>
+
+<script>
+  // 1. Configuration Firebase de l'application Yekati
+  // REMPLACEZ LES VALEURS CI-DESSOUS PAR VOS NOUVELLES CLÉS SÉCURISÉES DE LA CONSOLE
+  const firebaseConfig = {
+    apiKey: "VOTRE_NOUVELLE_CLE_API",
+    authDomain: "://firebaseapp.com",
+    projectId: "yekati-whatsapp",
+    storageBucket: "://appspot.com",
+    messagingSenderId: "VOTRE_MESSAGING_SENDER_ID",
+    appId: "VOTRE_APP_ID"
+  };
+
+  // Initialisation du projet Firebase
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+
+  // Identifiant temporaire pour simuler votre compte (Dieu Merci)
+  const monIdUtilisateur = "DieuMerci_Yekatinzapa";
+
+  // Sélection des éléments HTML
+  const zoneMessages = document.getElementById("zone-messages");
+  const inputMessage = document.getElementById("input-message");
+  const btnEnvoyer = document.getElementById("btn-envoyer");
+
+  // 2. Fonction pour ENVOYER un message à Firestore
+  function envoyerNouveauMessage() {
+    const texte = inputMessage.value.trim();
+    if (texte === "") return; // Ne rien faire si le champ est vide
+
+    db.collection("messages").add({
+      texte: texte,
+      expediteur: monIdUtilisateur,
+      dateEnvoi: firebase.firestore.FieldValue.serverTimestamp()
+    })
+    .then(() => {
+      inputMessage.value = ""; // Vider le champ de saisie
+      inputMessage.focus();
+    })
+    .catch((error) => {
+      console.error("Erreur d'écriture Firebase : ", error);
+      alert("Erreur de permission Firestore. Vérifiez vos règles d'accès.");
+    });
+  }
+
+  // Événements d'envoi (Clic sur le bouton ou appui sur la touche Entrée)
+  btnEnvoyer.addEventListener("click", envoyerNouveauMessage);
+  inputMessage.addEventListener("keypress", function(e) {
+    if (e.key === "Enter") {
+      envoyerNouveauMessage();
+    }
+  });
+
+  // 3. ÉCOUTE et Synchronisation en temps réel de la base de données
+  db.collection("messages")
+    .orderBy("dateEnvoi", "asc")
+    .onSnapshot((snapshot) => {
+      // Vider la zone visuelle pour réafficher proprement la liste triée
+      zoneMessages.innerHTML = "";
+      
+      snapshot.forEach((doc) => {
+        const messageData = doc.data();
+        
+        // Création de la bulle HTML
+        const bulleElement = document.createElement("div");
+        bulleElement.classList.add("message");
+        
+        // Si l'expéditeur est l'utilisateur actuel -> bulle verte à droite
+        if (messageData.expediteur === monIdUtilisateur) {
+            bulleElement.classList.add("envoye");
+        } else {
+            // Sinon -> bulle blanche à gauche
+            bulleElement.classList.add("recu");
+        }
+        
+        bulleElement.textContent = messageData.texte;
+        zoneMessages.appendChild(bulleElement);
+      });
+      
+      // Faire défiler automatiquement vers le bas pour voir le dernier message
+      zoneMessages.scrollTop = zoneMessages.scrollHeight;
+    }, (error) => {
+        console.error("Erreur d'écoute en temps réel : ", error);
+    });
+</script>
+
+</body>
+</html>
