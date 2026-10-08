@@ -2,113 +2,119 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>YEKATI</title>
-<link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiWUVLQVRJIiwic2hvcnRfbmFtZSI6IllFS0FUSSIsImRpc3BsYXkiOiJzdGFuZGFsb25lIiwidGhlbWVfY29sb3IiOiIjMDc1RTU0IiwiYmFja2dyb3VuZF9jb2xvciI6IiMxMTFiMjEifQ==">
-<meta name="theme-color" content="#075E54">
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui}
-body{height:100vh;overflow:hidden;background:#111b21}
-#app{display:flex;height:100vh;max-width:900px;margin:auto;background:white}
-#sidebar{width:35%;min-width:280px;background:white;border-right:1px solid #ddd;display:flex;flex-direction:column}
-#sidebar header{background:#f0f2f5;padding:15px;display:flex;justify-content:space-between}
-#search{padding:10px;background:#f0f2f5}
-#search input{width:100%;padding:8px 15px;border-radius:8px;border:none;background:white;outline:none}
-.contact{padding:12px 15px;display:flex;gap:10px;cursor:pointer;border-bottom:1px solid #f0f2f5}
-.contact:hover{background:#f0f2f5}
-.contact.active{background:#e9edef}
-.avatar{width:45px;height:45px;border-radius:50%;background:#075E54;color:white;display:flex;align-items:center;justify-content:center;font-weight:bold}
-#chatArea{flex:1;display:flex;flex-direction:column;background:#e5ddd5}
-#chatHeader{background:#f0f2f5;padding:10px 15px;display:flex;justify-content:space-between;align-items:center}
-#messages{flex:1;overflow-y:auto;padding:20px;background-image:url('https://camo.githubusercontent.com/9a9a555ccf854c31e4f7dcdf52ff008268bdc6a6e/68747470733a2f2f7765622e77686174736170702e636f6d2f696d672f62672d636861742d74696c652d6461726b5f61346265353132653731393538306334383466373634353765373733392e706e67');}
-.msg{max-width:65%;padding:8px 10px;border-radius:8px;margin:4px 0;position:relative;box-shadow:0 1px 1px rgba(0,0,0,0.1);word-wrap:break-word}
-.msg.other{background:white;align-self:flex-start}
-.msg.me{background:#d9fdd3;align-self:flex-end;margin-left:auto}
-.msg audio{width:200px}
-.time{font-size:10px;color:gray;float:right;margin-left:8px;margin-top:6px}
-#inputArea{background:#f0f2f5;padding:10px;display:flex;gap:8px;align-items:center}
-#inputArea input{flex:1;padding:12px;border:none;border-radius:20px;outline:none}
-.btn{width:42px;height:42px;border-radius:50%;border:none;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center}
-.btn-voice{background:#25D366;color:white}
-.btn-send{background:#075E54;color:white}
-@media(max-width:700px){#sidebar{width:100%}#chatArea{display:none}#chatArea.open{display:flex;position:absolute;top:0;left:0;width:100%;height:100%;z-index:10}}
+*{margin:0;padding:0;box-sizing:border-box;font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto}
+body{background:#111b21;height:100vh;display:flex;justify-content:center}
+#app{width:100%;max-width:450px;background:#111b21;display:flex;flex-direction:column;position:relative}
+.top{background:#075E54;color:white;padding:12px 15px;display:flex;justify-content:space-between;align-items:center}
+.tabs{display:flex;background:#075E54;color:#ffffff99}
+.tab{flex:1;padding:12px;text-align:center;cursor:pointer;font-weight:600;border-bottom:3px solid transparent}
+.tab.active{color:white;border-bottom:3px solid white}
+#view{flex:1;overflow-y:auto;background:white}
+.contact{display:flex;gap:12px;padding:12px 15px;border-bottom:1px solid #f0f2f5;cursor:pointer;align-items:center}
+.contact b{font-size:15px}
+.avatar{width:48px;height:48px;border-radius:50%;background:#dfdfe0;display:flex;align-items:center;justify-content:center;font-weight:bold;color:#54656f;font-size:20px;flex-shrink:0}
+.badge{background:#25D366;color:white;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:12px;margin-left:auto}
+#chatView{display:none;flex-direction:column;height:100%;background:#e5ddd5;position:absolute;top:0;left:0;width:100%;z-index:10}
+#msgs{flex:1;overflow-y:auto;padding:15px;display:flex;flex-direction:column;gap:4px}
+.bubble{max-width:75%;padding:7px 10px;border-radius:8px;font-size:14.5px;box-shadow:0 1px 0.5px rgba(0,0,0,0.1)}
+.me{background:#d9fdd3;align-self:flex-end;border-top-right-radius:0}
+.other{background:white;align-self:flex-start;border-top-left-radius:0}
+.meta{font-size:11px;color:#667781;float:right;margin-left:10px;margin-top:5px}
+#inputBar{background:#f0f2f5;padding:8px;display:flex;gap:6px;align-items:center}
+#inputBar input{flex:1;padding:11px 15px;border-radius:20px;border:none;outline:none}
+.btn{width:44px;height:44px;border-radius:50%;border:none;cursor:pointer}
+.btn-green{background:#25D366;color:white;font-size:20px}
+.fab{position:absolute;bottom:20px;right:20px;width:56px;height:56px;background:#25D366;border-radius:50%;border:none;color:white;font-size:28px;cursor:pointer;box-shadow:0 2px 5px rgba(0,0,0,0.3)}
+.modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);display:none;align-items:center;justify-content:center;z-index:20}
+.modalBox{background:white;width:90%;max-width:360px;padding:20px;border-radius:10px}
+.modalBox input,.modalBox select{width:100%;padding:12px;margin:8px 0;border:1px solid #ddd;border-radius:8px}
 </style>
 </head>
 <body>
 <div id="app">
-<div id="sidebar">
-<header><h3>YEKATI 🇨🇩</h3><span>⋮</span></header>
-<div id="search"><input placeholder="Rechercher..."></div>
-<div id="contacts">
-<div class="contact active" onclick="openChat('Maman', this)"><div class="avatar">M</div><div><b>Maman</b><br><small>En ligne</small></div></div>
-<div class="contact" onclick="openChat('Papa Chat', this)"><div class="avatar" style="background:#128C7E">P</div><div><b>Papa Chat</b><br><small>Disponible</small></div></div>
-<div class="contact" onclick="openChat('Groupe Kin', this)"><div class="avatar" style="background:#25D366">G</div><div><b>Groupe Kinshasa</b><br><small>Toi: YEKATI marche!</small></div></div>
-<div class="contact" onclick="openChat('Dieumerci', this)"><div class="avatar" style="background:#54656f">D</div><div><b>Dieumerci</b><br><small>Vu aujourd'hui</small></div></div>
-</div>
-</div>
-<div id="chatArea">
-<div id="chatHeader">
-<div style="display:flex;gap:10px;align-items:center"><span onclick="closeChat()" style="cursor:pointer;display:none" id="backBtn">←</span><div class="avatar" id="chatAvatar">M</div><div><b id="chatName">Maman</b><br><small style="color:gray">en ligne</small></div></div>
-<div><button class="btn" style="background:transparent" onclick="startCall()">📞</button> <button class="btn" style="background:transparent" onclick="startCall()">📹</button></div>
-</div>
-<div id="messages" style="display:flex;flex-direction:column"></div>
-<div id="inputArea">
-<button class="btn" style="background:transparent">😊</button>
-<button class="btn" style="background:transparent">📎</button>
-<input id="msgInput" placeholder="Tapez un message">
-<button class="btn btn-voice" id="voiceBtn" onmousedown="startRec()" onmouseup="stopRec()" ontouchstart="startRec()" ontouchend="stopRec()">🎤</button>
-<button class="btn btn-send" onclick="sendMsg()">➤</button>
+<div class="top"><h2>Yekati</h2><div><span onclick="openModal('newGroupModal')" style="margin-right:15px;cursor:pointer">👥</span><span onclick="openModal('settingsModal')" style="cursor:pointer">⋮</span></div></div>
+<div class="tabs"><div class="tab active" onclick="switchTab('chats',this)">DISC.</div><div class="tab" onclick="switchTab('status',this)">ACTUS</div><div class="tab" onclick="switchTab('calls',this)">APPELS</div></div>
+<div id="view"></div>
+<button class="fab" onclick="openModal('newContactModal')">+</button>
+
+<div id="chatView">
+<div class="top"><span onclick="closeChat()" style="cursor:pointer;margin-right:10px">←</span><div class="avatar" id="cAvatar">M</div><div style="flex:1;margin-left:10px"><b id="cName" style="color:white"></b><br><small id="cStatus" style="font-size:12px;opacity:0.8">en ligne</small></div><span onclick="startCall()" style="cursor:pointer;font-size:22px">📞</span><span onclick="startCall()" style="cursor:pointer;margin-left:15px;font-size:22px">📹</span></div>
+<div id="msgs"></div>
+<div id="inputBar">
+<input id="msgInput" placeholder="Message">
+<button class="btn btn-green" id="voiceBtn" onmousedown="startVoice()" onmouseup="stopVoice()" ontouchstart="startVoice()" ontouchend="stopVoice()">🎤</button>
+<button class="btn btn-green" onclick="sendMsg()">➤</button>
 </div>
 </div>
 </div>
+
+<div class="modal" id="newContactModal"><div class="modalBox"><h3>Nouveau contact</h3><select id="country"><option value="+243">🇨🇩 Congo +243</option><option value="+242">🇨🇬 Congo-Brazza +242</option><option value="+33">🇫🇷 France +33</option><option value="+32">🇧🇪 Belgique +32</option><option value="+1">🇺🇸 USA +1</option></select><input id="contactName" placeholder="Nom (ex: Maman)"><input id="contactPhone" placeholder="Numéro sans indicatif"><button onclick="addContact()" style="width:100%;padding:12px;background:#075E54;color:white;border:none;border-radius:8px;margin-top:10px">Ajouter</button><button onclick="closeModals()" style="width:100%;padding:10px;background:#eee;border:none;border-radius:8px;margin-top:5px">Annuler</button></div></div>
+<div class="modal" id="newGroupModal"><div class="modalBox"><h3>Nouveau groupe</h3><input id="groupName" placeholder="Nom du groupe"><button onclick="addGroup()" style="width:100%;padding:12px;background:#075E54;color:white;border:none;border-radius:8px;margin-top:10px">Créer groupe</button><button onclick="closeModals()" style="width:100%;padding:10px;background:#eee;border:none;border-radius:8px;margin-top:5px">Annuler</button></div></div>
+<div class="modal" id="settingsModal"><div class="modalBox"><h3>Paramètres YEKATI</h3><p style="margin-top:10px">👤 Profil: Dieumerci<br>📱 Version: YEKATI Pro 2.0<br>🇨🇩 Made in Congo</p><button onclick="if(confirm('Effacer tous les chats?')){localStorage.clear();location.reload()}" style="width:100%;padding:12px;background:red;color:white;border:none;border-radius:8px;margin-top:15px">Effacer toutes les discussions</button><button onclick="closeModals()" style="width:100%;padding:10px;background:#eee;border:none;border-radius:8px;margin-top:5px">Fermer</button></div></div>
+
 <script>
-let currentChat='Maman';
-const msgsDiv=document.getElementById('messages');
-let allChats=JSON.parse(localStorage.getItem('yekati_chats')||'{"Maman":[{"t":"Bienvenue sur YEKATI 🇨🇩 ton WhatsApp congolais!","me":false}],"Papa Chat":[],"Groupe Kin":[],"Dieumerci":[]}');
-function render(){
- msgsDiv.innerHTML='';
- (allChats[currentChat]||[]).forEach(m=>{
-   const div=document.createElement('div'); div.className='msg '+(m.me?'me':'other');
-   if(m.audio){ div.innerHTML=`<audio controls src="${m.audio}"></audio><span class="time">✓✓ ${m.time}</span>`; }
-   else{ div.innerHTML=`${m.t}<span class="time">✓✓ ${m.time}</span>`; }
-   msgsDiv.appendChild(div);
- });
- msgsDiv.scrollTop=msgsDiv.scrollHeight;
- localStorage.setItem('yekati_chats',JSON.stringify(allChats));
+let db = JSON.parse(localStorage.getItem('YEKATI_DB')||'null') || {
+ contacts: [{name:'Maman',phone:'+243810000001',unread:2},{name:'Papa',phone:'+243820000002',unread:0},{name:'Chérie ❤️',phone:'+243990000003',unread:5}],
+ groups: [{name:'Famille Yekati',members:3,unread:1},{name:'Business Kin',members:12,unread:9}],
+ chats: {"Maman":[{t:"Mbote! Yekati eza bien? 🇨🇩",me:false,time:"09:12",read:true}],"Papa":[{t:"Papa WhatsApp ya Congo esili",me:true,time:"08:30",read:true}],"Chérie ❤️":[{t:"BB tu es où?",me:false,time:"10:05",read:false}],"Famille Yekati":[{t:"Dieumerci: YEKATI marche déjà!",me:false,time:"11:00",read:false}]},
+ currentTab:'chats'
+};
+function save(){localStorage.setItem('YEKATI_DB',JSON.stringify(db));}
+function renderView(){
+ const v=document.getElementById('view'); v.innerHTML='';
+ if(db.currentTab==='chats'||!db.currentTab){
+  [...db.contacts,...db.groups].forEach(c=>{
+   const isGroup=!!c.members; const key=c.name;
+   const div=document.createElement('div'); div.className='contact';
+   div.innerHTML=`<div class="avatar" style="background:${isGroup?'#25D366':'#54656f'};color:white">${c.name[0]}</div><div style="flex:1"><b>${c.name}</b><br><small style="color:#667781">${isGroup?c.members+' membres':c.phone} • ${db.chats[key]?.[db.chats[key].length-1]?.t||'Nouveau contact'}</small></div>${c.unread?`<div class="badge">${c.unread}</div>`:''}`;
+   div.onclick=()=>openChat(c.name); v.appendChild(div);
+  });
+ } else if(db.currentTab==='status'){ v.innerHTML='<div style="padding:20px;text-align:center;color:gray">Actus YEKATI - Bientôt comme WhatsApp Status<br><br>👁️ Vu par 5 personnes</div>'; }
+ else if(db.currentTab==='calls'){ v.innerHTML='<div class="contact"><div class="avatar">📞</div><div><b>Maman</b><br><small>Aujourd\'hui, 10:12 - Entrant</small></div></div>'; }
+}
+function switchTab(t,el){ db.currentTab=t; document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active')); el.classList.add('active'); renderView(); }
+function openChat(name){
+ document.getElementById('chatView').style.display='flex'; document.getElementById('cName').innerText=name; document.getElementById('cAvatar').innerText=name[0];
+ const contact=db.contacts.find(c=>c.name===name)||db.groups.find(g=>g.name===name); if(contact)contact.unread=0; save(); renderMsgs(); renderView();
+}
+function closeChat(){ document.getElementById('chatView').style.display='none'; }
+function renderMsgs(){
+ const key=document.getElementById('cName').innerText; const box=document.getElementById('msgs'); box.innerHTML='';
+ (db.chats[key]||[]).forEach(m=>{
+  const d=document.createElement('div'); d.className='bubble '+(m.me?'me':'other');
+  if(m.audio) d.innerHTML=`<audio controls src="${m.audio}" style="width:180px"></audio><span class="meta">✓✓ ${m.time}</span>`;
+  else d.innerHTML=`${m.t}<span class="meta" style="color:${m.read?'#53bdeb':'#667781'}">${m.me?'✓✓':' '} ${m.time}</span>`;
+  box.appendChild(d);
+ }); box.scrollTop=box.scrollHeight;
 }
 function sendMsg(){
- const inp=document.getElementById('msgInput'); if(!inp.value.trim())return;
- const time=new Date().toLocaleTimeString().slice(0,5);
- allChats[currentChat].push({t:inp.value,me:true,time}); inp.value=''; render();
- setTimeout(()=>{ allChats[currentChat].push({t:'Reçu ✓✓',me:false,time}); render(); },800);
+ const input=document.getElementById('msgInput'); const txt=input.value.trim(); if(!txt)return;
+ const key=document.getElementById('cName').innerText; const time=new Date().toLocaleTimeString().slice(0,5);
+ if(!db.chats[key])db.chats[key]=[]; db.chats[key].push({t:txt,me:true,time,read:false}); input.value=''; save(); renderMsgs(); renderView();
+ setTimeout(()=>{ db.chats[key].push({t:'Reçu sur YEKATI ✓✓',me:false,time,read:true}); save(); renderMsgs(); },1000);
 }
-function openChat(name,el){
- currentChat=name; document.getElementById('chatName').innerText=name;
- document.getElementById('chatAvatar').innerText=name[0];
- document.querySelectorAll('.contact').forEach(c=>c.classList.remove('active')); el.classList.add('active');
- document.getElementById('chatArea').classList.add('open'); document.getElementById('backBtn').style.display='inline'; render();
+let rec,chunks=[];
+async function startVoice(){
+ try{ const s=await navigator.mediaDevices.getUserMedia({audio:true}); rec=new MediaRecorder(s); chunks=[];
+ rec.ondataavailable=e=>chunks.push(e.data);
+ rec.onstop=()=>{ const blob=new Blob(chunks,{type:'audio/webm'}); const url=URL.createObjectURL(blob); const key=document.getElementById('cName').innerText; const time=new Date().toLocaleTimeString().slice(0,5); if(!db.chats[key])db.chats[key]=[]; db.chats[key].push({audio:url,me:true,time}); save(); renderMsgs(); };
+ rec.start(); document.getElementById('voiceBtn').style.background='red';
+ }catch(e){alert('Micro bloqué');}
 }
-function closeChat(){ document.getElementById('chatArea').classList.remove('open'); }
-let rec, chunks=[];
-async function startRec(){
- try{
-  const stream=await navigator.mediaDevices.getUserMedia({audio:true});
-  rec=new MediaRecorder(stream); chunks=[];
-  rec.ondataavailable=e=>chunks.push(e.data);
-  rec.onstop=()=>{
-   const blob=new Blob(chunks,{type:'audio/webm'});
-   const url=URL.createObjectURL(blob);
-   const time=new Date().toLocaleTimeString().slice(0,5);
-   allChats[currentChat].push({audio:url,me:true,time}); render();
-  };
-  rec.start(); document.getElementById('voiceBtn').style.background='red';
- }catch(e){alert('Autorise le micro');}
+function stopVoice(){ if(rec&&rec.state==='recording'){rec.stop(); document.getElementById('voiceBtn').style.background='#25D366';} }
+function addContact(){
+ const name=document.getElementById('contactName').value; const phone=document.getElementById('country').value+document.getElementById('contactPhone').value;
+ if(!name)return alert('Nom manquant'); db.contacts.push({name,phone,unread:0}); db.chats[name]=[]; save(); closeModals(); renderView();
 }
-function stopRec(){ if(rec&&rec.state==='recording'){ rec.stop(); document.getElementById('voiceBtn').style.background='#25D366'; } }
-function startCall(){ const id=Math.floor(Math.random()*9000); window.open('https://meet.jit.si/YEKATI-'+id+'-'+currentChat,'_blank'); }
-document.getElementById('msgInput').addEventListener('keypress',e=>{ if(e.key==='Enter') sendMsg(); });
-render();
-if('serviceWorker' in navigator){ navigator.serviceWorker.register(URL.createObjectURL(new Blob([`self.addEventListener('fetch',e=>e.respondWith(fetch(e.request)))`],{type:'text/javascript'}))); }
+function addGroup(){ const name=document.getElementById('groupName').value; if(!name)return; db.groups.push({name,members:1,unread:0}); db.chats[name]=[]; save(); closeModals(); renderView(); }
+function openModal(id){ document.getElementById(id).style.display='flex'; }
+function closeModals(){ document.querySelectorAll('.modal').forEach(m=>m.style.display='none'); }
+function startCall(){ const id=Math.floor(Math.random()*9999); window.open('https://meet.jit.si/YEKATI-'+id,'_blank'); }
+document.getElementById('msgInput').addEventListener('keypress',e=>{if(e.key==='Enter')sendMsg();});
+renderView();
 </script>
 </body>
 </html>
