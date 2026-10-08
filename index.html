@@ -1,232 +1,114 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yekati - Messagerie</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background-color: #d1d7db;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-
-        #app-container {
-            width: 100%;
-            max-width: 1000px;
-            height: 95vh;
-            background-color: #efeae2;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        /* Entête style WhatsApp */
-        header {
-            background-color: #008069;
-            color: white;
-            padding: 15px 20px;
-            display: flex;
-            align-items: center;
-            font-size: 18px;
-            font-weight: bold;
-        }
-
-        header .status {
-            font-size: 12px;
-            font-weight: normal;
-            margin-left: 10px;
-            color: #d1f4cc;
-        }
-
-        /* Zone d'affichage des messages */
-        #zone-messages {
-            flex: 1;
-            padding: 20px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            background-image: url('https://githubusercontent.com');
-            background-opacity: 0.4;
-        }
-
-        /* Bulles de discussion */
-        .message {
-            max-width: 65%;
-            padding: 8px 12px;
-            border-radius: 8px;
-            font-size: 15px;
-            line-height: 1.4;
-            position: relative;
-            word-wrap: break-word;
-        }
-
-        .envoye {
-            background-color: #d9fdd3;
-            align-self: flex-end;
-            box-shadow: 0 1px 1px rgba(0,0,0,0.1);
-        }
-
-        .recu {
-            background-color: #ffffff;
-            align-self: flex-start;
-            box-shadow: 0 1px 1px rgba(0,0,0,0.1);
-        }
-
-        /* Barre d'envoi en bas */
-        footer {
-            background-color: #f0f2f5;
-            padding: 10px 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        #input-message {
-            flex: 1;
-            padding: 12px;
-            border: none;
-            border-radius: 8px;
-            font-size: 15px;
-            outline: none;
-            background-color: white;
-        }
-
-        #btn-envoyer {
-            background-color: #008069;
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 15px;
-        }
-
-        #btn-envoyer:hover {
-            background-color: #006653;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>YEKATI</title>
+<link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiWUVLQVRJIiwic2hvcnRfbmFtZSI6IllFS0FUSSIsImRpc3BsYXkiOiJzdGFuZGFsb25lIiwidGhlbWVfY29sb3IiOiIjMDc1RTU0IiwiYmFja2dyb3VuZF9jb2xvciI6IiMxMTFiMjEifQ==">
+<meta name="theme-color" content="#075E54">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui}
+body{height:100vh;overflow:hidden;background:#111b21}
+#app{display:flex;height:100vh;max-width:900px;margin:auto;background:white}
+#sidebar{width:35%;min-width:280px;background:white;border-right:1px solid #ddd;display:flex;flex-direction:column}
+#sidebar header{background:#f0f2f5;padding:15px;display:flex;justify-content:space-between}
+#search{padding:10px;background:#f0f2f5}
+#search input{width:100%;padding:8px 15px;border-radius:8px;border:none;background:white;outline:none}
+.contact{padding:12px 15px;display:flex;gap:10px;cursor:pointer;border-bottom:1px solid #f0f2f5}
+.contact:hover{background:#f0f2f5}
+.contact.active{background:#e9edef}
+.avatar{width:45px;height:45px;border-radius:50%;background:#075E54;color:white;display:flex;align-items:center;justify-content:center;font-weight:bold}
+#chatArea{flex:1;display:flex;flex-direction:column;background:#e5ddd5}
+#chatHeader{background:#f0f2f5;padding:10px 15px;display:flex;justify-content:space-between;align-items:center}
+#messages{flex:1;overflow-y:auto;padding:20px;background-image:url('https://camo.githubusercontent.com/9a9a555ccf854c31e4f7dcdf52ff008268bdc6a6e/68747470733a2f2f7765622e77686174736170702e636f6d2f696d672f62672d636861742d74696c652d6461726b5f61346265353132653731393538306334383466373634353765373733392e706e67');}
+.msg{max-width:65%;padding:8px 10px;border-radius:8px;margin:4px 0;position:relative;box-shadow:0 1px 1px rgba(0,0,0,0.1);word-wrap:break-word}
+.msg.other{background:white;align-self:flex-start}
+.msg.me{background:#d9fdd3;align-self:flex-end;margin-left:auto}
+.msg audio{width:200px}
+.time{font-size:10px;color:gray;float:right;margin-left:8px;margin-top:6px}
+#inputArea{background:#f0f2f5;padding:10px;display:flex;gap:8px;align-items:center}
+#inputArea input{flex:1;padding:12px;border:none;border-radius:20px;outline:none}
+.btn{width:42px;height:42px;border-radius:50%;border:none;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center}
+.btn-voice{background:#25D366;color:white}
+.btn-send{background:#075E54;color:white}
+@media(max-width:700px){#sidebar{width:100%}#chatArea{display:none}#chatArea.open{display:flex;position:absolute;top:0;left:0;width:100%;height:100%;z-index:10}}
+</style>
 </head>
 <body>
-
-<div id="app-container">
-    <!-- Barre du haut -->
-    <header>
-        <div>Yekati Chat</div>
-        <div class="status">● En ligne (Firebase connecté)</div>
-    </header>
-
-    <!-- Zone de discussion -->
-    <div id="zone-messages" id="zone-messages"></div>
-
-    <!-- Barre de saisie -->
-    <footer>
-        <input type="text" id="input-message" placeholder="Tapez un message..." autocomplete="off">
-        <button id="btn-envoyer">Envoyer</button>
-    </footer>
+<div id="app">
+<div id="sidebar">
+<header><h3>YEKATI 🇨🇩</h3><span>⋮</span></header>
+<div id="search"><input placeholder="Rechercher..."></div>
+<div id="contacts">
+<div class="contact active" onclick="openChat('Maman', this)"><div class="avatar">M</div><div><b>Maman</b><br><small>En ligne</small></div></div>
+<div class="contact" onclick="openChat('Papa Chat', this)"><div class="avatar" style="background:#128C7E">P</div><div><b>Papa Chat</b><br><small>Disponible</small></div></div>
+<div class="contact" onclick="openChat('Groupe Kin', this)"><div class="avatar" style="background:#25D366">G</div><div><b>Groupe Kinshasa</b><br><small>Toi: YEKATI marche!</small></div></div>
+<div class="contact" onclick="openChat('Dieumerci', this)"><div class="avatar" style="background:#54656f">D</div><div><b>Dieumerci</b><br><small>Vu aujourd'hui</small></div></div>
 </div>
-
-<!-- Scripts Firebase de base et Firestore -->
-<script src="https://gstatic.com"></script>
-<script src="https://gstatic.com"></script>
-
+</div>
+<div id="chatArea">
+<div id="chatHeader">
+<div style="display:flex;gap:10px;align-items:center"><span onclick="closeChat()" style="cursor:pointer;display:none" id="backBtn">←</span><div class="avatar" id="chatAvatar">M</div><div><b id="chatName">Maman</b><br><small style="color:gray">en ligne</small></div></div>
+<div><button class="btn" style="background:transparent" onclick="startCall()">📞</button> <button class="btn" style="background:transparent" onclick="startCall()">📹</button></div>
+</div>
+<div id="messages" style="display:flex;flex-direction:column"></div>
+<div id="inputArea">
+<button class="btn" style="background:transparent">😊</button>
+<button class="btn" style="background:transparent">📎</button>
+<input id="msgInput" placeholder="Tapez un message">
+<button class="btn btn-voice" id="voiceBtn" onmousedown="startRec()" onmouseup="stopRec()" ontouchstart="startRec()" ontouchend="stopRec()">🎤</button>
+<button class="btn btn-send" onclick="sendMsg()">➤</button>
+</div>
+</div>
+</div>
 <script>
-  // 1. Configuration Firebase de l'application Yekati
-  // REMPLACEZ LES VALEURS CI-DESSOUS PAR VOS NOUVELLES CLÉS SÉCURISÉES DE LA CONSOLE
-  const firebaseConfig = {
-    apiKey: "VOTRE_NOUVELLE_CLE_API",
-    authDomain: "://firebaseapp.com",
-    projectId: "yekati-whatsapp",
-    storageBucket: "://appspot.com",
-    messagingSenderId: "VOTRE_MESSAGING_SENDER_ID",
-    appId: "VOTRE_APP_ID"
+let currentChat='Maman';
+const msgsDiv=document.getElementById('messages');
+let allChats=JSON.parse(localStorage.getItem('yekati_chats')||'{"Maman":[{"t":"Bienvenue sur YEKATI 🇨🇩 ton WhatsApp congolais!","me":false}],"Papa Chat":[],"Groupe Kin":[],"Dieumerci":[]}');
+function render(){
+ msgsDiv.innerHTML='';
+ (allChats[currentChat]||[]).forEach(m=>{
+   const div=document.createElement('div'); div.className='msg '+(m.me?'me':'other');
+   if(m.audio){ div.innerHTML=`<audio controls src="${m.audio}"></audio><span class="time">✓✓ ${m.time}</span>`; }
+   else{ div.innerHTML=`${m.t}<span class="time">✓✓ ${m.time}</span>`; }
+   msgsDiv.appendChild(div);
+ });
+ msgsDiv.scrollTop=msgsDiv.scrollHeight;
+ localStorage.setItem('yekati_chats',JSON.stringify(allChats));
+}
+function sendMsg(){
+ const inp=document.getElementById('msgInput'); if(!inp.value.trim())return;
+ const time=new Date().toLocaleTimeString().slice(0,5);
+ allChats[currentChat].push({t:inp.value,me:true,time}); inp.value=''; render();
+ setTimeout(()=>{ allChats[currentChat].push({t:'Reçu ✓✓',me:false,time}); render(); },800);
+}
+function openChat(name,el){
+ currentChat=name; document.getElementById('chatName').innerText=name;
+ document.getElementById('chatAvatar').innerText=name[0];
+ document.querySelectorAll('.contact').forEach(c=>c.classList.remove('active')); el.classList.add('active');
+ document.getElementById('chatArea').classList.add('open'); document.getElementById('backBtn').style.display='inline'; render();
+}
+function closeChat(){ document.getElementById('chatArea').classList.remove('open'); }
+let rec, chunks=[];
+async function startRec(){
+ try{
+  const stream=await navigator.mediaDevices.getUserMedia({audio:true});
+  rec=new MediaRecorder(stream); chunks=[];
+  rec.ondataavailable=e=>chunks.push(e.data);
+  rec.onstop=()=>{
+   const blob=new Blob(chunks,{type:'audio/webm'});
+   const url=URL.createObjectURL(blob);
+   const time=new Date().toLocaleTimeString().slice(0,5);
+   allChats[currentChat].push({audio:url,me:true,time}); render();
   };
-
-  // Initialisation du projet Firebase
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.firestore();
-
-  // Identifiant temporaire pour simuler votre compte (Dieu Merci)
-  const monIdUtilisateur = "DieuMerci_Yekatinzapa";
-
-  // Sélection des éléments HTML
-  const zoneMessages = document.getElementById("zone-messages");
-  const inputMessage = document.getElementById("input-message");
-  const btnEnvoyer = document.getElementById("btn-envoyer");
-
-  // 2. Fonction pour ENVOYER un message à Firestore
-  function envoyerNouveauMessage() {
-    const texte = inputMessage.value.trim();
-    if (texte === "") return; // Ne rien faire si le champ est vide
-
-    db.collection("messages").add({
-      texte: texte,
-      expediteur: monIdUtilisateur,
-      dateEnvoi: firebase.firestore.FieldValue.serverTimestamp()
-    })
-    .then(() => {
-      inputMessage.value = ""; // Vider le champ de saisie
-      inputMessage.focus();
-    })
-    .catch((error) => {
-      console.error("Erreur d'écriture Firebase : ", error);
-      alert("Erreur de permission Firestore. Vérifiez vos règles d'accès.");
-    });
-  }
-
-  // Événements d'envoi (Clic sur le bouton ou appui sur la touche Entrée)
-  btnEnvoyer.addEventListener("click", envoyerNouveauMessage);
-  inputMessage.addEventListener("keypress", function(e) {
-    if (e.key === "Enter") {
-      envoyerNouveauMessage();
-    }
-  });
-
-  // 3. ÉCOUTE et Synchronisation en temps réel de la base de données
-  db.collection("messages")
-    .orderBy("dateEnvoi", "asc")
-    .onSnapshot((snapshot) => {
-      // Vider la zone visuelle pour réafficher proprement la liste triée
-      zoneMessages.innerHTML = "";
-      
-      snapshot.forEach((doc) => {
-        const messageData = doc.data();
-        
-        // Création de la bulle HTML
-        const bulleElement = document.createElement("div");
-        bulleElement.classList.add("message");
-        
-        // Si l'expéditeur est l'utilisateur actuel -> bulle verte à droite
-        if (messageData.expediteur === monIdUtilisateur) {
-            bulleElement.classList.add("envoye");
-        } else {
-            // Sinon -> bulle blanche à gauche
-            bulleElement.classList.add("recu");
-        }
-        
-        bulleElement.textContent = messageData.texte;
-        zoneMessages.appendChild(bulleElement);
-      });
-      
-      // Faire défiler automatiquement vers le bas pour voir le dernier message
-      zoneMessages.scrollTop = zoneMessages.scrollHeight;
-    }, (error) => {
-        console.error("Erreur d'écoute en temps réel : ", error);
-    });
+  rec.start(); document.getElementById('voiceBtn').style.background='red';
+ }catch(e){alert('Autorise le micro');}
+}
+function stopRec(){ if(rec&&rec.state==='recording'){ rec.stop(); document.getElementById('voiceBtn').style.background='#25D366'; } }
+function startCall(){ const id=Math.floor(Math.random()*9000); window.open('https://meet.jit.si/YEKATI-'+id+'-'+currentChat,'_blank'); }
+document.getElementById('msgInput').addEventListener('keypress',e=>{ if(e.key==='Enter') sendMsg(); });
+render();
+if('serviceWorker' in navigator){ navigator.serviceWorker.register(URL.createObjectURL(new Blob([`self.addEventListener('fetch',e=>e.respondWith(fetch(e.request)))`],{type:'text/javascript'}))); }
 </script>
-
 </body>
 </html>
