@@ -2,119 +2,183 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>YEKATI</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>YEKATI - WhatsApp du Congo</title>
+<meta name="theme-color" content="#075E54">
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto}
-body{background:#111b21;height:100vh;display:flex;justify-content:center}
-#app{width:100%;max-width:450px;background:#111b21;display:flex;flex-direction:column;position:relative}
-.top{background:#075E54;color:white;padding:12px 15px;display:flex;justify-content:space-between;align-items:center}
-.tabs{display:flex;background:#075E54;color:#ffffff99}
-.tab{flex:1;padding:12px;text-align:center;cursor:pointer;font-weight:600;border-bottom:3px solid transparent}
-.tab.active{color:white;border-bottom:3px solid white}
-#view{flex:1;overflow-y:auto;background:white}
-.contact{display:flex;gap:12px;padding:12px 15px;border-bottom:1px solid #f0f2f5;cursor:pointer;align-items:center}
-.contact b{font-size:15px}
-.avatar{width:48px;height:48px;border-radius:50%;background:#dfdfe0;display:flex;align-items:center;justify-content:center;font-weight:bold;color:#54656f;font-size:20px;flex-shrink:0}
-.badge{background:#25D366;color:white;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:12px;margin-left:auto}
-#chatView{display:none;flex-direction:column;height:100%;background:#e5ddd5;position:absolute;top:0;left:0;width:100%;z-index:10}
-#msgs{flex:1;overflow-y:auto;padding:15px;display:flex;flex-direction:column;gap:4px}
-.bubble{max-width:75%;padding:7px 10px;border-radius:8px;font-size:14.5px;box-shadow:0 1px 0.5px rgba(0,0,0,0.1)}
+*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui,-apple-system,Segoe UI,Roboto}
+body{background:#111b21;height:100vh;overflow:hidden}
+#app{width:100%;max-width:500px;height:100vh;background:#fff;margin:auto;display:flex;flex-direction:column;position:relative}
+header{background:#075E54;color:#fff;padding:12px 16px;display:flex;justify-content:space-between;align-items:center}
+header h1{font-size:19px}
+.tabs{background:#075E54;display:flex;color:#86b6af}
+.tab{flex:1;text-align:center;padding:12px 0;font-size:14px;font-weight:600;cursor:pointer;border-bottom:3px solid transparent}
+.tab.active{color:#fff;border-bottom:3px solid #fff}
+#main{flex:1;overflow-y:auto;background:#fff;position:relative}
+.contact{display:flex;align-items:center;gap:12px;padding:11px 14px;border-bottom:1px solid #f2f2f2}
+.contact:active{background:#f0f2f5}
+.ava{width:49px;height:49px;border-radius:50%;background:#ccc;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:20px;flex-shrink:0;background-size:cover}
+.info{flex:1;overflow:hidden}
+.info b{font-size:16px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.info small{color:#667781;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
+.metaCol{text-align:right}
+.unread{background:#25D366;color:#fff;border-radius:12px;padding:2px 7px;font-size:12px;font-weight:600;display:inline-block}
+.time{font-size:12px;color:#667781}
+.fab{position:absolute;bottom:90px;right:16px;width:56px;height:56px;background:#25D366;border-radius:50%;border:none;color:#fff;font-size:26px;box-shadow:0 3px 8px rgba(0,0,0,.3);z-index:5;cursor:pointer}
+.bottomNav{position:absolute;bottom:0;left:0;width:100%;background:#fff;border-top:1px solid #e9edef;display:flex;justify-content:space-around;padding:8px 0;z-index:5}
+.navItem{text-align:center;font-size:11px;color:#54656f;cursor:pointer}
+.navItem.active{color:#075E54}
+#chat{position:absolute;top:0;left:0;width:100%;height:100%;background:#e5ddd5;z-index:20;display:none;flex-direction:column}
+#chatTop{background:#f0f2f5;padding:8px 10px;display:flex;align-items:center;gap:10px}
+#msgs{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:3px;background-image:url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png')}
+.bubble{max-width:78%;padding:6px 8px;border-radius:8px;font-size:14.5px;line-height:19px;box-shadow:0 1px.5px rgba(0,0,0,.13);position:relative;word-break:break-word}
 .me{background:#d9fdd3;align-self:flex-end;border-top-right-radius:0}
-.other{background:white;align-self:flex-start;border-top-left-radius:0}
-.meta{font-size:11px;color:#667781;float:right;margin-left:10px;margin-top:5px}
-#inputBar{background:#f0f2f5;padding:8px;display:flex;gap:6px;align-items:center}
-#inputBar input{flex:1;padding:11px 15px;border-radius:20px;border:none;outline:none}
-.btn{width:44px;height:44px;border-radius:50%;border:none;cursor:pointer}
-.btn-green{background:#25D366;color:white;font-size:20px}
-.fab{position:absolute;bottom:20px;right:20px;width:56px;height:56px;background:#25D366;border-radius:50%;border:none;color:white;font-size:28px;cursor:pointer;box-shadow:0 2px 5px rgba(0,0,0,0.3)}
-.modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);display:none;align-items:center;justify-content:center;z-index:20}
-.modalBox{background:white;width:90%;max-width:360px;padding:20px;border-radius:10px}
-.modalBox input,.modalBox select{width:100%;padding:12px;margin:8px 0;border:1px solid #ddd;border-radius:8px}
+.other{background:#fff;align-self:flex-start;border-top-left-radius:0}
+.tick{font-size:11px;color:#667781;float:right;margin-left:8px;margin-top:6px}
+.tick.blue{color:#53bdeb}
+#inputBar{background:#f0f2f5;padding:6px 8px;display:flex;align-items:center;gap:6px}
+#inputBar input[type=text]{flex:1;padding:10px 14px;border-radius:20px;border:none;outline:none;font-size:15px}
+.iconBtn{width:40px;height:40px;border-radius:50%;border:none;background:transparent;font-size:22px;cursor:pointer}
+.iconBtn.green{background:#25D366;color:#fff}
+.modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.6);z-index:30;display:none;align-items:center;justify-content:center}
+.box{background:#fff;width:92%;max-width:400px;border-radius:12px;padding:18px;max-height:90vh;overflow-y:auto}
+.box input,.box select{width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;margin:6px 0;font-size:15px}
+.btnFull{width:100%;padding:12px;background:#075E54;color:#fff;border:none;border-radius:8px;font-weight:600;margin-top:8px;cursor:pointer}
 </style>
 </head>
 <body>
 <div id="app">
-<div class="top"><h2>Yekati</h2><div><span onclick="openModal('newGroupModal')" style="margin-right:15px;cursor:pointer">👥</span><span onclick="openModal('settingsModal')" style="cursor:pointer">⋮</span></div></div>
-<div class="tabs"><div class="tab active" onclick="switchTab('chats',this)">DISC.</div><div class="tab" onclick="switchTab('status',this)">ACTUS</div><div class="tab" onclick="switchTab('calls',this)">APPELS</div></div>
-<div id="view"></div>
-<button class="fab" onclick="openModal('newContactModal')">+</button>
+<header><h1>Yekati</h1><div><span onclick="openModal('camModal')" style="cursor:pointer">📷</span><span onclick="openModal('setModal')" style="margin-left:16px;cursor:pointer">⋮</span></div></header>
+<div class="tabs"><div class="tab active" id="tab-disc" onclick="setTab('disc')">Discussions</div><div class="tab" onclick="setTab('actus')">Actus</div><div class="tab" onclick="setTab('comm')">Communauté</div><div class="tab" onclick="setTab('appels')">Appels</div></div>
+<div id="main"></div>
+<button class="fab" id="mainFab" onclick="fabAction()">+</button>
+<div class="bottomNav" id="bottomNav" style="display:none"></div>
 
-<div id="chatView">
-<div class="top"><span onclick="closeChat()" style="cursor:pointer;margin-right:10px">←</span><div class="avatar" id="cAvatar">M</div><div style="flex:1;margin-left:10px"><b id="cName" style="color:white"></b><br><small id="cStatus" style="font-size:12px;opacity:0.8">en ligne</small></div><span onclick="startCall()" style="cursor:pointer;font-size:22px">📞</span><span onclick="startCall()" style="cursor:pointer;margin-left:15px;font-size:22px">📹</span></div>
+<div id="chat">
+<div id="chatTop"><span onclick="closeChat()" style="font-size:22px;cursor:pointer">←</span><div class="ava" id="chatAva"></div><div style="flex:1"><b id="chatName"></b><br><small id="chatPresence" style="font-size:12px;color:#667781">appuyez pour voir contact</small></div><span style="font-size:20px;cursor:pointer" onclick="doCall('audio')">📞</span><span style="font-size:20px;cursor:pointer;margin-left:12px" onclick="doCall('video')">📹</span></div>
 <div id="msgs"></div>
 <div id="inputBar">
-<input id="msgInput" placeholder="Message">
-<button class="btn btn-green" id="voiceBtn" onmousedown="startVoice()" onmouseup="stopVoice()" ontouchstart="startVoice()" ontouchend="stopVoice()">🎤</button>
-<button class="btn btn-green" onclick="sendMsg()">➤</button>
+<button class="iconBtn" onclick="document.getElementById('fileInput').click()">😊📎</button>
+<input type="file" id="fileInput" accept="image/*,video/*" style="display:none" onchange="sendImage(this)">
+<input type="text" id="txtInput" placeholder="Message" autocomplete="off">
+<button class="iconBtn green" id="btnVoice" style="display:flex">🎤</button>
+<button class="iconBtn green" id="btnSend" onclick="sendText()" style="display:none">➤</button>
 </div>
 </div>
 </div>
 
-<div class="modal" id="newContactModal"><div class="modalBox"><h3>Nouveau contact</h3><select id="country"><option value="+243">🇨🇩 Congo +243</option><option value="+242">🇨🇬 Congo-Brazza +242</option><option value="+33">🇫🇷 France +33</option><option value="+32">🇧🇪 Belgique +32</option><option value="+1">🇺🇸 USA +1</option></select><input id="contactName" placeholder="Nom (ex: Maman)"><input id="contactPhone" placeholder="Numéro sans indicatif"><button onclick="addContact()" style="width:100%;padding:12px;background:#075E54;color:white;border:none;border-radius:8px;margin-top:10px">Ajouter</button><button onclick="closeModals()" style="width:100%;padding:10px;background:#eee;border:none;border-radius:8px;margin-top:5px">Annuler</button></div></div>
-<div class="modal" id="newGroupModal"><div class="modalBox"><h3>Nouveau groupe</h3><input id="groupName" placeholder="Nom du groupe"><button onclick="addGroup()" style="width:100%;padding:12px;background:#075E54;color:white;border:none;border-radius:8px;margin-top:10px">Créer groupe</button><button onclick="closeModals()" style="width:100%;padding:10px;background:#eee;border:none;border-radius:8px;margin-top:5px">Annuler</button></div></div>
-<div class="modal" id="settingsModal"><div class="modalBox"><h3>Paramètres YEKATI</h3><p style="margin-top:10px">👤 Profil: Dieumerci<br>📱 Version: YEKATI Pro 2.0<br>🇨🇩 Made in Congo</p><button onclick="if(confirm('Effacer tous les chats?')){localStorage.clear();location.reload()}" style="width:100%;padding:12px;background:red;color:white;border:none;border-radius:8px;margin-top:15px">Effacer toutes les discussions</button><button onclick="closeModals()" style="width:100%;padding:10px;background:#eee;border:none;border-radius:8px;margin-top:5px">Fermer</button></div></div>
+<!-- MODALS -->
+<div class="modal" id="newContactModal"><div class="box"><h3>Nouveau contact</h3>
+<select id="countrySel"></select>
+<input id="cNameInput" placeholder="Nom complet">
+<input id="cPhoneInput" type="tel" placeholder="Numéro (ex: 810123456)">
+<input id="cPhotoInput" placeholder="Lien photo (optionnel)">
+<button class="btnFull" onclick="createContact()">Ajouter contact</button>
+<button class="btnFull" style="background:#eee;color:#333" onclick="closeModals()">Annuler</button></div></div>
+
+<div class="modal" id="setModal"><div class="box"><h3>Paramètres YEKATI</h3>
+<div style="padding:10px 0;border-bottom:1px solid #eee">👤 <b>Dieumerci Yekati</b><br><small>Disponible - Made in Congo 🇨🇩</small></div>
+<div style="padding:12px 0;cursor:pointer" onclick="alert('Confidentialité: Chiffrement bout en bout activé 🔒')">🔒 Confidentialité</div>
+<div style="padding:12px 0;cursor:pointer" onclick="alert('Stockage: '+JSON.stringify(localStorage).length+' octets')">💾 Stockage et données</div>
+<div style="padding:12px 0;cursor:pointer" onclick="if(confirm('Supprimer tous les chats?')){localStorage.removeItem('YEKATI_V5');location.reload()}">🗑️ Supprimer tous les chats</div>
+<button class="btnFull" style="background:#eee;color:#333" onclick="closeModals()">Fermer</button></div></div>
+
+<div class="modal" id="camModal"><div class="box"><h3>Envoyer image</h3><input type="file" accept="image/*" onchange="sendImage(this);closeModals()"><button class="btnFull" style="background:#eee;color:#333" onclick="closeModals()">Fermer</button></div></div>
 
 <script>
-let db = JSON.parse(localStorage.getItem('YEKATI_DB')||'null') || {
- contacts: [{name:'Maman',phone:'+243810000001',unread:2},{name:'Papa',phone:'+243820000002',unread:0},{name:'Chérie ❤️',phone:'+243990000003',unread:5}],
- groups: [{name:'Famille Yekati',members:3,unread:1},{name:'Business Kin',members:12,unread:9}],
- chats: {"Maman":[{t:"Mbote! Yekati eza bien? 🇨🇩",me:false,time:"09:12",read:true}],"Papa":[{t:"Papa WhatsApp ya Congo esili",me:true,time:"08:30",read:true}],"Chérie ❤️":[{t:"BB tu es où?",me:false,time:"10:05",read:false}],"Famille Yekati":[{t:"Dieumerci: YEKATI marche déjà!",me:false,time:"11:00",read:false}]},
- currentTab:'chats'
+const COUNTRIES=[["🇨🇩 RD Congo +243","+243"],["🇨🇬 Congo +242","+242"],["🇫🇷 France +33","+33"],["🇧🇪 Belgique +32","+32"],["🇨🇦 Canada +1","+1"],["🇺🇸 USA +1","+1"],["🇨🇮 Côte d'Ivoire +225","+225"],["🇨🇲 Cameroun +237","+237"],["🇸🇳 Sénégal +221","+221"],["🇲🇱 Mali +223","+223"],["🇬🇳 Guinée +224","+224"],["🇧🇯 Bénin +229","+229"],["🇹🇬 Togo +228","+228"],["🇬🇦 Gabon +241","+241"],["🇿🇦 Afrique du Sud +27","+27"],["🇳🇬 Nigeria +234","+234"],["🇲🇦 Maroc +212","+212"],["🇩🇿 Algérie +213","+213"],["🇬🇧 UK +44","+44"],["🇩🇪 Allemagne +49","+49"],["🇨🇭 Suisse +41","+41"],["🇮🇹 Italie +39","+39"],["🇪🇸 Espagne +34","+34"],["🇵🇹 Portugal +351","+351"],["🇧🇷 Brésil +55","+55"],["🇮🇳 Inde +91","+91"],["🇨🇳 Chine +86","+86"],["🇯🇵 Japon +81","+81"],["🇹🇷 Turquie +90","+90"],["🇦🇪 UAE +971","+971"],["🇸🇦 Arabie +966","+966"],["🇦🇴 Angola +244","+244"],["🇷🇼 Rwanda +250","+250"],["🇺🇬 Ouganda +256","+256"],["🇹🇿 Tanzanie +255","+255"],["🇰🇪 Kenya +254","+254"]];
+
+let DB = JSON.parse(localStorage.getItem('YEKATI_V5')||'null') || {
+ contacts:[{name:"Maman",phone:"+243 810 000 001",photo:"",unread:2},{name:"Papa",phone:"+243 820 000 002",photo:"",unread:0},{name:"Chérie ❤️",phone:"+243 990 111 222",photo:"",unread:3}],
+ chats:{
+  "Maman":[{type:"text",t:"Mbote maman! YEKATI eza WhatsApp ya Congo 🇨🇩",me:false,time:"09:12",status:"read"},{type:"text",t:"Oui mwana, esala bien!",me:true,time:"09:13",status:"read"}],
+  "Papa":[{type:"text",t:"Papa, app eza prêt",me:true,time:"08:00",status:"delivered"}],
+  "Chérie ❤️":[{type:"text",t:"Coucou bb tu es où?",me:false,time:"10:05",status:"read"}]
+ },
+ tab:"disc"
 };
-function save(){localStorage.setItem('YEKATI_DB',JSON.stringify(db));}
-function renderView(){
- const v=document.getElementById('view'); v.innerHTML='';
- if(db.currentTab==='chats'||!db.currentTab){
-  [...db.contacts,...db.groups].forEach(c=>{
-   const isGroup=!!c.members; const key=c.name;
-   const div=document.createElement('div'); div.className='contact';
-   div.innerHTML=`<div class="avatar" style="background:${isGroup?'#25D366':'#54656f'};color:white">${c.name[0]}</div><div style="flex:1"><b>${c.name}</b><br><small style="color:#667781">${isGroup?c.members+' membres':c.phone} • ${db.chats[key]?.[db.chats[key].length-1]?.t||'Nouveau contact'}</small></div>${c.unread?`<div class="badge">${c.unread}</div>`:''}`;
-   div.onclick=()=>openChat(c.name); v.appendChild(div);
+function save(){localStorage.setItem('YEKATI_V5',JSON.stringify(DB));}
+function fillCountries(){const s=document.getElementById('countrySel'); COUNTRIES.forEach(c=>{const o=document.createElement('option'); o.value=c[1]; o.textContent=c[0]; if(c[1]==='+243')o.selected=true; s.appendChild(o);});}
+fillCountries();
+
+function render(){
+ const main=document.getElementById('main'); main.innerHTML='';
+ if(DB.tab==='disc'){
+  DB.contacts.forEach(c=>{
+   const last=DB.chats[c.name]?DB.chats[c.name][DB.chats[c.name].length-1]:null;
+   const d=document.createElement('div'); d.className='contact';
+   d.innerHTML=`<div class="ava" style="background:${c.photo?'url('+c.photo+') center/cover':'#'+Math.floor(Math.random()*16777215).toString(16)}">${c.photo?'':c.name[0]}</div><div class="info"><b>${c.name}</b><small>${last? (last.type==='image'?'📷 Photo': last.type==='voice'?'🎤 Vocal 0:'+last.dur+' • '+last.t): '✓✓ '+(c.unread?'Nouveau message': c.phone)}</small></div><div class="metaCol"><span class="time">${last?last.time:''}</span><br>${c.unread?`<span class="unread">${c.unread}</span>`:''}</div>`;
+   d.onclick=()=>openChat(c.name); main.appendChild(d);
   });
- } else if(db.currentTab==='status'){ v.innerHTML='<div style="padding:20px;text-align:center;color:gray">Actus YEKATI - Bientôt comme WhatsApp Status<br><br>👁️ Vu par 5 personnes</div>'; }
- else if(db.currentTab==='calls'){ v.innerHTML='<div class="contact"><div class="avatar">📞</div><div><b>Maman</b><br><small>Aujourd\'hui, 10:12 - Entrant</small></div></div>'; }
+ }else if(DB.tab==='actus'){ main.innerHTML=`<div style="padding:16px"><b>Actus</b><div class="contact"><div class="ava" style="background:#075E54">+</div><div class="info"><b>Mon actu</b><small>Appuyez pour ajouter</small></div></div><div class="contact"><div class="ava">D</div><div class="info"><b>Dieumerci</b><small>Il y a 5 min</small></div></div></div>`; }
+ else if(DB.tab==='comm'){ main.innerHTML=`<div style="padding:30px;text-align:center"><h3>Communauté YEKATI</h3><p style="color:gray;margin-top:10px">Rassemble tes groupes au même endroit</p><button class="btnFull" onclick="alert('Création communauté bientôt!')">Créer communauté</button></div>`; }
+ else if(DB.tab==='appels'){ main.innerHTML=`<div class="contact"><div class="ava" style="background:#00a884">📞</div><div class="info"><b>Créer un lien d'appel</b><small>Partagez un lien pour YEKATI</small></div></div><div class="contact"><div class="ava">M</div><div class="info"><b>Maman</b><small>Hier 20:12 • Entrant 5 min</small></div><div style="color:#25D366">📞</div></div>`; }
 }
-function switchTab(t,el){ db.currentTab=t; document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active')); el.classList.add('active'); renderView(); }
+function setTab(t){ DB.tab=t; document.querySelectorAll('.tab').forEach(e=>e.classList.remove('active')); document.getElementById('tab-'+t)?.classList.add('active') || (event.target.classList.add('active')); render(); }
 function openChat(name){
- document.getElementById('chatView').style.display='flex'; document.getElementById('cName').innerText=name; document.getElementById('cAvatar').innerText=name[0];
- const contact=db.contacts.find(c=>c.name===name)||db.groups.find(g=>g.name===name); if(contact)contact.unread=0; save(); renderMsgs(); renderView();
+ document.getElementById('chat').style.display='flex';
+ document.getElementById('chatName').innerText=name;
+ document.getElementById('chatAva').innerText=name[0];
+ const c=DB.contacts.find(x=>x.name===name); if(c){c.unread=0; DB.contacts.find(x=>x.name===name).unread=0; save();}
+ renderMsgs(); render();
 }
-function closeChat(){ document.getElementById('chatView').style.display='none'; }
+function closeChat(){document.getElementById('chat').style.display='none'; render();}
 function renderMsgs(){
- const key=document.getElementById('cName').innerText; const box=document.getElementById('msgs'); box.innerHTML='';
- (db.chats[key]||[]).forEach(m=>{
-  const d=document.createElement('div'); d.className='bubble '+(m.me?'me':'other');
-  if(m.audio) d.innerHTML=`<audio controls src="${m.audio}" style="width:180px"></audio><span class="meta">✓✓ ${m.time}</span>`;
-  else d.innerHTML=`${m.t}<span class="meta" style="color:${m.read?'#53bdeb':'#667781'}">${m.me?'✓✓':' '} ${m.time}</span>`;
-  box.appendChild(d);
+ const name=document.getElementById('chatName').innerText; const box=document.getElementById('msgs'); box.innerHTML='';
+ (DB.chats[name]||[]).forEach(m=>{
+  const div=document.createElement('div'); div.className='bubble '+(m.me?'me':'other');
+  if(m.type==='text') div.innerHTML=`${m.t}<span class="tick ${m.status==='read'?'blue':''}">${m.me? (m.status==='read'?'✓✓': m.status==='delivered'?'✓✓':'✓'):''} ${m.time}</span>`;
+  else if(m.type==='image') div.innerHTML=`<img src="${m.url}" style="max-width:220px;border-radius:8px;display:block"><span class="tick blue">✓✓ ${m.time}</span>`;
+  else if(m.type==='voice') div.innerHTML=`<div style="display:flex;align-items:center;gap:8px"><span style="background:#075E54;color:white;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center">▶</span><audio controls src="${m.url}" style="width:140px"></audio></div><span class="tick blue">✓✓ ${m.time} • ${m.dur}s</span>`;
+  box.appendChild(div);
  }); box.scrollTop=box.scrollHeight;
 }
-function sendMsg(){
- const input=document.getElementById('msgInput'); const txt=input.value.trim(); if(!txt)return;
- const key=document.getElementById('cName').innerText; const time=new Date().toLocaleTimeString().slice(0,5);
- if(!db.chats[key])db.chats[key]=[]; db.chats[key].push({t:txt,me:true,time,read:false}); input.value=''; save(); renderMsgs(); renderView();
- setTimeout(()=>{ db.chats[key].push({t:'Reçu sur YEKATI ✓✓',me:false,time,read:true}); save(); renderMsgs(); },1000);
+function sendText(){
+ const inp=document.getElementById('txtInput'); const t=inp.value.trim(); if(!t) return;
+ const name=document.getElementById('chatName').innerText; const time=new Date().toLocaleTimeString().slice(0,5);
+ if(!DB.chats[name])DB.chats[name]=[]; DB.chats[name].push({type:'text',t,me:true,time,status:'delivered'}); inp.value=''; toggleSend(); save(); renderMsgs();
+ setTimeout(()=>{ DB.chats[name][DB.chats[name].length-1].status='read'; save(); renderMsgs(); render(); },1200);
 }
-let rec,chunks=[];
-async function startVoice(){
- try{ const s=await navigator.mediaDevices.getUserMedia({audio:true}); rec=new MediaRecorder(s); chunks=[];
- rec.ondataavailable=e=>chunks.push(e.data);
- rec.onstop=()=>{ const blob=new Blob(chunks,{type:'audio/webm'}); const url=URL.createObjectURL(blob); const key=document.getElementById('cName').innerText; const time=new Date().toLocaleTimeString().slice(0,5); if(!db.chats[key])db.chats[key]=[]; db.chats[key].push({audio:url,me:true,time}); save(); renderMsgs(); };
- rec.start(); document.getElementById('voiceBtn').style.background='red';
- }catch(e){alert('Micro bloqué');}
+function sendImage(input){
+ if(!input.files[0]) return; const file=input.files[0]; const url=URL.createObjectURL(file);
+ const name=document.getElementById('chatName').innerText; const time=new Date().toLocaleTimeString().slice(0,5);
+ if(!DB.chats[name])DB.chats[name]=[]; DB.chats[name].push({type:'image',url,me:true,time,status:'read'}); save(); renderMsgs(); input.value='';
 }
-function stopVoice(){ if(rec&&rec.state==='recording'){rec.stop(); document.getElementById('voiceBtn').style.background='#25D366';} }
-function addContact(){
- const name=document.getElementById('contactName').value; const phone=document.getElementById('country').value+document.getElementById('contactPhone').value;
- if(!name)return alert('Nom manquant'); db.contacts.push({name,phone,unread:0}); db.chats[name]=[]; save(); closeModals(); renderView();
+let mediaRec, chunks=[], recStart;
+function initVoice(){
+ const btn=document.getElementById('btnVoice');
+ btn.addEventListener('pointerdown', async (e)=>{
+  e.preventDefault(); try{
+   const stream=await navigator.mediaDevices.getUserMedia({audio:true});
+   mediaRec=new MediaRecorder(stream); chunks=[]; recStart=Date.now();
+   mediaRec.ondataavailable=ev=>chunks.push(ev.data);
+   mediaRec.onstop=()=>{
+    const blob=new Blob(chunks,{type:'audio/webm'}); const url=URL.createObjectURL(blob); const dur=Math.round((Date.now()-recStart)/1000);
+    const name=document.getElementById('chatName').innerText; const time=new Date().toLocaleTimeString().slice(0,5);
+    if(!DB.chats[name])DB.chats[name]=[]; DB.chats[name].push({type:'voice',url,me:true,time,dur,t:dur+'s'}); save(); renderMsgs();
+   };
+   mediaRec.start(); btn.style.background='red'; btn.textContent='● REC';
+  }catch(err){alert('Active micro dans Chrome');}
+ });
+ btn.addEventListener('pointerup', ()=>{ if(mediaRec&&mediaRec.state==='recording'){mediaRec.stop(); btn.style.background='#25D366'; btn.textContent='🎤';}});
 }
-function addGroup(){ const name=document.getElementById('groupName').value; if(!name)return; db.groups.push({name,members:1,unread:0}); db.chats[name]=[]; save(); closeModals(); renderView(); }
-function openModal(id){ document.getElementById(id).style.display='flex'; }
-function closeModals(){ document.querySelectorAll('.modal').forEach(m=>m.style.display='none'); }
-function startCall(){ const id=Math.floor(Math.random()*9999); window.open('https://meet.jit.si/YEKATI-'+id,'_blank'); }
-document.getElementById('msgInput').addEventListener('keypress',e=>{if(e.key==='Enter')sendMsg();});
-renderView();
+initVoice();
+function toggleSend(){
+ const v=document.getElementById('txtInput').value.trim();
+ document.getElementById('btnSend').style.display=v?'flex':'none';
+ document.getElementById('btnVoice').style.display=v?'none':'flex';
+}
+document.getElementById('txtInput').addEventListener('input', toggleSend);
+document.getElementById('txtInput').addEventListener('keypress', e=>{ if(e.key==='Enter') sendText(); });
+function fabAction(){ if(DB.tab==='disc') openModal('newContactModal'); else if(DB.tab==='appels') doCall('audio'); else alert('Bientôt!'); }
+function createContact(){
+ const name=document.getElementById('cNameInput').value.trim(); const country=document.getElementById('countrySel').value; const phone=document.getElementById('cPhoneInput').value.trim(); const photo=document.getElementById('cPhotoInput').value.trim();
+ if(!name||!phone) return alert('Nom et numéro obligatoires'); DB.contacts.unshift({name,phone:country+' '+phone,photo,unread:1}); DB.chats[name]=[{type:'text',t:'Salut! Bienvenue sur YEKATI 🇨🇩',me:false,time:new Date().toLocaleTimeString().slice(0,5),status:'read'}]; save(); closeModals(); render(); document.getElementById('cNameInput').value=''; document.getElementById('cPhoneInput').value='';
+}
+function doCall(type){ const name=document.getElementById('chatName')?.innerText||'YEKATI'; const id=Math.floor(Math.random()*900000); window.open('https://meet.jit.si/YEKATI_'+name+'_'+id+(type==='video'?'#config.startWithVideoMuted=false':'#config.startWithVideoMuted=true'),'_blank'); }
+function openModal(id){document.getElementById(id).style.display='flex';}
+function closeModals(){document.querySelectorAll('.modal').forEach(m=>m.style.display='none');}
+render();
 </script>
 </body>
 </html>
