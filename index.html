@@ -182,3 +182,119 @@ render();
 </script>
 </body>
 </html>
+<!-- MODAL APPEL -->
+<div class="modal" id="callModal">
+<div class="modal-box" style="text-align:center">
+<div class="avatar" id="callAvatar" style="width:80px;height:80px;margin:0 auto 15px;font-size:35px">M</div>
+<h3 id="callName">Appel en cours...</h3>
+<p id="callTimer" style="color:#8696a0;margin:10px 0">00:00</p>
+<p style="color:#25D366">● Appel vidéo YEKATI connecté</p>
+<div style="display:flex;gap:15px;justify-content:center;margin-top:25px">
+<button style="width:55px;height:55px;border-radius:50%;background:#54656f;border:none;font-size:22px" onclick="toggleMic()">🎤</button>
+<button style="width:70px;height:70px;border-radius:50%;background:#f15c6d;border:none;font-size:28px" onclick="endCall()">📞</button>
+<button style="width:55px;height:55px;border-radius:50%;background:#54656f;border:none;font-size:22px" onclick="toggleCam()">📹</button>
+</div>
+</div>
+</div>
+
+<!-- MODAL PARAMETRES -->
+<div class="modal" id="settingsModal">
+<div class="modal-box" style="max-height:90vh;overflow-y:auto">
+<h3>Paramètres YEKATI</h3>
+<div style="margin-top:15px">
+<div class="chat-item" style="padding:10px 0"><span>👤</span><div class="chat-info"><div class="chat-name">Dieumerci - Maître YEKATI</div><div class="chat-last">En ligne - Kinshasa</div></div></div>
+<div class="chat-item" style="padding:12px 0" onclick="alert('Clé API Meta AI: Actif ✅')"><span>🤖</span><div class="chat-info"><div class="chat-name">Meta AI</div><div class="chat-last">Intelligence YEKATI</div></div></div>
+<div class="chat-item" style="padding:12px 0"><span>🔒</span><div class="chat-info"><div class="chat-name">Confidentialité</div></div></div>
+<div class="chat-item" style="padding:12px 0"><span>🎨</span><div class="chat-info"><div class="chat-name">Discussions - Thème sombre</div></div></div>
+<div class="chat-item" style="padding:12px 0"><span>🔔</span><div class="chat-info"><div class="chat-name">Notifications</div></div></div>
+<div class="chat-item" style="padding:12px 0"><span>💾</span><div class="chat-info"><div class="chat-name">Stockage</div><div class="chat-last">2.3 Go utilisés</div></div></div>
+<div class="chat-item" style="padding:12px 0"><span>🌍</span><div class="chat-info"><div class="chat-name">Langue: Français / Lingala</div></div></div>
+<div style="text-align:center;margin-top:15px;color:#8696a0;font-size:12px">YEKATI v62<br>Créé par Méta & Dieumerci<br>Kinshasa 2026 🇨🇩</div>
+</div>
+<button style="width:100%;margin-top:15px;padding:12px;background:#2a3942;border:none;border-radius:8px;color:white" onclick="closeModal('settingsModal')">Fermer</button>
+</div>
+</div>
+
+<script>
+let callInterval=null, callSec=0, isRecording=false, recTimer=null;
+let chats = JSON.parse(localStorage.getItem('yekati_chats')||'[]');
+
+function switchTab(tab,el){
+document.querySelectorAll('[id^=view-]').forEach(v=>v.style.display='none');
+document.getElementById('view-'+tab).style.display='block';
+document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+el.classList.add('active');
+document.getElementById('filters').style.display = tab==='discussions'?'flex':'none';
+document.getElementById('fabBtn').innerHTML = tab==='appels'?'📞':'+';
+if(tab==='appels') document.getElementById('fabBtn').onclick = ()=>startCall('Contact');
+else document.getElementById('fabBtn').onclick = ()=>openNewContact();
+renderChats();
+}
+function filterChat(type,el){
+document.querySelectorAll('.filter').forEach(f=>f.classList.remove('active'));
+el.classList.add('active');
+renderChats(type);
+}
+function renderChats(filter='all'){
+const c=document.getElementById('customChats');
+c.innerHTML='';
+chats.forEach((ch,i)=>{
+if(filter==='group' &&!ch.isGroup) return;
+if(filter==='fav' &&!ch.fav) return;
+c.innerHTML+=`<div class="chat-item" onclick="openChat('${ch.prenom}')"><div class="avatar" style="background:#${Math.floor(Math.random()*16777215).toString(16)}">${ch.prenom[0]}</div><div class="chat-info"><div class="chat-top"><span class="chat-name">${ch.prenom} ${ch.nom}</span><span class="chat-time">${ch.pays} ${ch.numero}</span></div><div class="chat-last">Nouveau contact YEKATI - Appuie pour discuter</div></div></div>`;
+});
+}
+function openNewContact(){document.getElementById('contactModal').style.display='flex'}
+function closeModal(id){document.getElementById(id).style.display='none'}
+function saveContact(){
+const prenom=document.getElementById('prenom').value;
+const nom=document.getElementById('nom').value;
+const pays=document.getElementById('pays').value;
+const numero=document.getElementById('numero').value;
+if(!prenom||!numero){alert('Mets Prénom et Numéro Maître!');return}
+chats.push({prenom,nom,pays,numero,fav:false,isGroup:false});
+localStorage.setItem('yekati_chats',JSON.stringify(chats));
+closeModal('contactModal');
+renderChats();
+alert('Contact '+prenom+' enregistré avec '+pays+' '+numero+' ✅');
+document.getElementById('prenom').value='';document.getElementById('nom').value='';document.getElementById('numero').value='';
+}
+function openChat(name){
+document.getElementById('chatWindow').style.display='flex';
+document.getElementById('chatName').innerText=name;
+document.getElementById('chatAvatar').innerText=name[0];
+}
+function closeChat(){document.getElementById('chatWindow').style.display='none'}
+function sendMsg(){
+const inp=document.getElementById('msgInput');
+if(!inp.value.trim())return;
+const m=document.createElement('div');m.className='msg sent';m.innerText=inp.value;
+document.getElementById('messages').appendChild(m);
+inp.value='';
+setTimeout(()=>{const r=document.createElement('div');r.className='msg received';r.innerText='Reçu Maître! YEKATI marche 💚';document.getElementById('messages').appendChild(r);document.getElementById('messages').scrollTop=9999},800);
+document.getElementById('messages').scrollTop=9999;
+}
+function startCall(name){
+document.getElementById('callModal').style.display='flex';
+document.getElementById('callName').innerText=name||'Appel YEKATI';
+document.getElementById('callAvatar').innerText=(name||'Y')[0];
+callSec=0;
+callInterval=setInterval(()=>{callSec++;let m=Math.floor(callSec/60).toString().padStart(2,'0');let s=(callSec%60).toString().padStart(2,'0');document.getElementById('callTimer').innerText=m+':'+s},1000);
+}
+function startVideoCall(){startCall(document.getElementById('chatName').innerText+' - Vidéo 📹')}
+function endCall(){clearInterval(callInterval);closeModal('callModal');document.getElementById('callTimer').innerText='00:00';alert('Appel terminé - '+callSec+'s sur YEKATI')}
+function toggleMic(){alert('Micro coupé / activé 🎤')}
+function toggleCam(){alert('Caméra coupée / activée 📹')}
+function startRecording(){
+if(isRecording)return;isRecording=true;document.getElementById('micBtn').style.color='#f15c6d';document.getElementById('chatStatus').innerText='● Enregistrement vocal...';
+recTimer=setTimeout(()=>{stopRecording();},3000);
+}
+function stopRecording(){
+if(!isRecording)return;isRecording=false;clearTimeout(recTimer);document.getElementById('micBtn').style.color='#8696a0';document.getElementById('chatStatus').innerText='en ligne';
+const m=document.createElement('div');m.className='msg sent';m.innerHTML='🎤 Vocal 0:03 <span style="color:#25D366">▶️</span>';document.getElementById('messages').appendChild(m);document.getElementById('messages').scrollTop=9999;
+}
+function openSettings(){document.getElementById('settingsModal').style.display='flex'}
+renderChats();
+</script>
+</body>
+</html>
